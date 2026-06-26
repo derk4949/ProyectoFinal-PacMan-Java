@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Jugador {
 
-    // Atributos
+    // ATRIBUTOS
     private String nombre;
     private int fila;
     private int columnna;
@@ -13,8 +13,8 @@ public class Jugador {
 
 
     Scanner lector=new Scanner(System.in);
-    //Nombre
-    public Jugador(String nombre,int fila, int columnna,int puntaje, int salud, int velocidad,boolean poderActivo) {
+    //ATRIBUTOS CONSTRUCTOR
+    public Jugador(String nombre,int fila, int columnna) {
         this.nombre = nombre;
         this.fila = fila;
         this.columnna = columnna;
@@ -23,8 +23,8 @@ public class Jugador {
         this.velocidad = 1;
         this.poderActivo = false;
     }
-    public void mover(String direccion) {
-
+    //METODOS
+    public void mover() {
     }
     public void recogerPunto(){
 
@@ -40,5 +40,14 @@ public class Jugador {
     }
     public void mostrarEstado() {
 
+
+    }
+
+    public static void main(String[]args) {
+        Scanner lector = new Scanner(System.in);
+        System.out.print("Ingresa tu nombre de usuario para Pac-Man: ");
+        String nombreUsuario = lector.nextLine();
+        Jugador jugadorUnico = new Jugador(nombreUsuario, 5, 5);
+        jugadorUnico.mostrarEstado();
     }
 }
