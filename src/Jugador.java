@@ -1,62 +1,44 @@
 import java.util.Scanner;
 
 public class Jugador {
-    public String nombre;
-    public int fila;
-    public int columnna;
-    public int puntaje;
-    public int salud;
-    public int velocidad;
-    public boolean poderActivo;
 
+    // Atributos
+    private String nombre;
+    private int fila;
+    private int columnna;
+    private int puntaje;
+    private int salud;
+    private int velocidad;
+    private boolean poderActivo;
+
+
+    Scanner lector=new Scanner(System.in);
     //Nombre
-    public Jugador(String nombreInicial) {
-        this.nombre = nombreInicial;
+    public Jugador(String nombre,int fila, int columnna,int puntaje, int salud, int velocidad,boolean poderActivo) {
+        this.nombre = nombre;
+        this.fila = fila;
+        this.columnna = columnna;
+        this.puntaje = 0;
+        this.salud = 3;
+        this.velocidad = 1;
+        this.poderActivo = false;
     }
-    //Posicion
-    public Jugador(int filaInicial, int columnaInicial) {
-        this.fila = filaInicial;
-        this.columnna = columnaInicial;
-    }
-    //Puntaje y velocidad
-    public Jugador (int puntaje,int salud,int velocidad){
-        this.puntaje=puntaje;
-        this.salud=salud;
-        this.velocidad = velocidad;
+    public void mover(String direccion) {
 
     }
-    //Poder con velocidad
-    public Jugador (boolean poderActivo,int velocidad) {
-        this.poderActivo=poderActivo;
-        this.velocidad = velocidad;
+    public void recogerPunto(){
 
     }
-
-    public void mover() {
-    }
-
-    public void recogerPunto() {
-        this.puntaje++;
-    }
-
     public void recibirDano() {
-        this.salud -= 20;
-    }
 
+    }
     public void usarPoder() {
-    }
 
-    public void estaVivo() {
     }
+    public void estaVivo () {
 
+    }
     public void mostrarEstado() {
-        System.out.println("--- ESTADO DE: " + this.nombre + " ---");
-        System.out.println("Vida: " + this.salud + "%");
-        System.out.println("Puntaje: " + this.puntaje);
-        System.out.println("Posición: [" + this.fila + ", " + this.columnna + "]");
-        System.out.println("-------------------------");
-    }
-    public static void main(String[]args){
 
     }
 }
