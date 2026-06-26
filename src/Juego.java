@@ -16,6 +16,12 @@ public class Juego {
 
 
     public void iniciarJuego() {
+        mostrarMenu();
+        String entrada = scanner.nextLine().trim();
+        if (entrada.equals("2")) {
+            System.out.println("Hasta luego!");
+            return;
+        }
 
         while(!juegoTerminado) {
             actualizarTablero();

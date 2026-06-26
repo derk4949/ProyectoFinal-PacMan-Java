@@ -19,7 +19,7 @@ public class Enemigo2 {
 
 
 
-    public void mover(Jugador j, Tablero tablero) {
+    public void mover(Jugador jugador, Tablero tablero) {
 
         int direccion = random.nextInt(4);
         int nuevaFila    = fila;
@@ -33,9 +33,9 @@ public class Enemigo2 {
 
     }
 
-    public void atacar(jugador j){
+    public void atacar(jugador jugador){
         System.out.println("El enemigote choco!");
-        j.recibirDaño(daño);
+        jugador.recibirDaño(daño);
 
     }
     public boolean verificarColision(){
