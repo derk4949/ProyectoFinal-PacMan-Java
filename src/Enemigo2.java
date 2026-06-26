@@ -19,10 +19,8 @@ public class Enemigo2 {
 
 
 
+    public void mover(Jugador jugador, Tablero tablero) {
 
-
-
-    public void mover() {
 
     }
 
@@ -31,9 +29,11 @@ public class Enemigo2 {
 
     }
     public boolean verificarColision(){
+        return false;
 
     }
     public void mostrarEstado(){
+        System.out.println("Enemigo 2 [" + tipo + "] en posición: " + fila + "," + columna);
 
     }
 
