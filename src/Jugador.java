@@ -11,7 +11,7 @@ public class Jugador {
 
     //Nombre
     public Jugador(String nombreInicial) {
-        this.nombre = _nombreInicial;
+        this.nombre = nombreInicial;
     }
     //Posicion
     public Jugador(int filaInicial, int columnaInicial) {
@@ -31,10 +31,6 @@ public class Jugador {
         this.velocidad = velocidad;
 
     }
-    public static void main(String[]args){
-
-    }
-
 
     public void mover() {
     }
@@ -59,5 +55,8 @@ public class Jugador {
         System.out.println("Puntaje: " + this.puntaje);
         System.out.println("Posición: [" + this.fila + ", " + this.columnna + "]");
         System.out.println("-------------------------");
+    }
+    public static void main(String[]args){
+
     }
 }

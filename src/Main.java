@@ -8,7 +8,5 @@ public class Main {
 
         Jugador Posicion = new Jugador(1,1);
         Jugador Puntajeyvelocidad = new Jugador(1,1,1);
-        Jugador PoderyVelocidad =
-        jugadorUnico.mostrarEstado();
     }
 }
