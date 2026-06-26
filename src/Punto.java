@@ -12,5 +12,18 @@ public class Punto {
         this.recolectado = false;
     }
 
+    public int obtenerValor() {
+
+        return valor;
+    }
+
+
+    public boolean fueRecolectado() {
+
+        return recolectado;
+    }
+
+
+
 }
 

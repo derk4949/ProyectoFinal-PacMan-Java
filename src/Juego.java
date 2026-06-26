@@ -15,13 +15,37 @@ public class Juego {
     }
 
 
+    public void iniciarJuego() {
 
-    while(!juegoTerminado) {
-        actualizarTablero();
-        mostrarEstado();
-        ejecutarTurno();
-        verificarFinJuego();
+        while(!juegoTerminado) {
+            actualizarTablero();
+            mostrarEstado();
+            ejecutarTurno();
+            verificarFinJuego();
+        }
     }
+
+    public void mostrarEstado() {
+
+    }
+    public void actualizarTablero() {
+
+
+
+    }
+    public void ejecutarTurno() {
+
+
+
+    }
+    public void verificarFinJuego() {
+
+
+    }
+
+
+
+
 
 
     private void mostrarMenu() {
