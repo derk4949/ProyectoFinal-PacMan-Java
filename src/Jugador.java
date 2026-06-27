@@ -37,6 +37,7 @@ public class Jugador {
                 break;
             default:
                 System.out.println("Tecla incorrecta");
+                break;
         }
     }
     //Metodos
@@ -74,5 +75,6 @@ public class Jugador {
         Jugador jugadorUnico = new Jugador(nombreUsuario, 5, 5);
         jugadorUnico.mostrarEstado();
         String direccion = lector.nextLine();
+
     }
 }
