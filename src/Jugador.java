@@ -4,12 +4,12 @@ public class Jugador {
 
     // ATRIBUTOS
     private String nombre;
-    private int fila;
-    private int columnna;
-    private int puntaje;
-    private int salud;
-    private int velocidad;
-    private boolean poderActivo;
+    public int fila;
+    public int columnna;
+    public int puntaje;
+    public int salud;
+    public int velocidad;
+    public boolean poderActivo;
 
 
     Scanner lector=new Scanner(System.in);
@@ -24,9 +24,23 @@ public class Jugador {
         this.poderActivo = false;
     }
     //METODOS
-    public void mover() {
+    public void mover(String direccion) {
+
+        switch (direccion.toUpperCase()){
+            case "W":
+                break;
+            case "S":
+                break;
+            case "A":
+                break;
+            case "D":
+                break;
+            default:
+                System.out.println("Tecla incorrecta");
+        }
     }
     public void recogerPunto(){
+
 
     }
     public void recibirDano() {
@@ -39,7 +53,13 @@ public class Jugador {
 
     }
     public void mostrarEstado() {
-
+        System.out.println("\n--- ESTADO DE: " + this.nombre + " ---");
+        System.out.println("Posición: [" + this.fila + ", " + this.columnna + "]");
+        System.out.println("Puntaje: " + this.puntaje);
+        System.out.println("Vidas: " + this.salud);
+        System.out.println("¿Tiene Poder?: " + (this.poderActivo ? "Sí" : "No"));
+        System.out.println("¿Está vivo?:" );
+        System.out.println("-----------------------------\n");
 
     }
 
@@ -49,5 +69,6 @@ public class Jugador {
         String nombreUsuario = lector.nextLine();
         Jugador jugadorUnico = new Jugador(nombreUsuario, 5, 5);
         jugadorUnico.mostrarEstado();
+        String direccion = lector.nextLine();
     }
 }
