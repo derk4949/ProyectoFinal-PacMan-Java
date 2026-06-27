@@ -39,18 +39,22 @@ public class Jugador {
                 System.out.println("Tecla incorrecta");
         }
     }
+    //Metodos
     public void recogerPunto(){
-
-
+        this.puntaje=+10;
     }
     public void recibirDano() {
-
+        this.salud=-1;
     }
     public void usarPoder() {
 
     }
-    public void estaVivo () {
-
+    public boolean estaVivo () {
+        if (this.salud>0){
+            return true;
+        } else {
+            return false;
+        }
     }
     public void mostrarEstado() {
         System.out.println("\n--- ESTADO DE: " + this.nombre + " ---");
