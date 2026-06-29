@@ -43,4 +43,22 @@ public class Tablero {
         }
         System.out.println();
     }
+    public class Muro {
+
+        // Atributos
+        public int fila;
+        public int columna;
+
+        // Constructor
+        public Muro(int fila, int columna) {
+            this.fila = fila;
+            this.columna = columna;
+        }
+
+        // Devuelve la posición del muro
+        public int[] obtenerPosicion() {
+            return new int[]{fila, columna};
+        }
+    }
 }
+
