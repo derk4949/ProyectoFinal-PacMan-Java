@@ -1,26 +1,27 @@
 public class Tablero {
-    //Atributos basicos de la clase
-    public int filas;
-    public int columnas;
-    public char [][] matriz;
-    //Arreglos de objetos
-    public Muro [] muros;
-    public Poder [] poderes;
+    // Atributos basicos de la clase
+    private int filas;
+    private int columnas;
+    private char[][] matriz;
+
+    //Atributos de los objetos
+    private Muro[] muros;
     private Punto[] puntos;
+    private Poder[] poderes;
 
     //Constructor
     public Tablero (int _filas, int _columnas, int _cantMuros, int _cantPuntos, int _cantPoderes) {
-        filas = _filas;
-        columnas = _columnas;
-        matriz = new char[filas][columnas];
-        muros = new Muro[_cantMuros];
-        poderes = new Poder[_cantPoderes];
+        this.filas = _filas;
+        this.columnas = _columnas;
+        this.matriz = new char[filas][columnas];
+        this.muros = new Muro[_cantMuros];
+        this.poderes = new Poder[_cantPoderes];
         this.puntos = new Punto[_cantPuntos];
 
     }
 
-    public void generarTablero () {
-        //Tablero();
+    //Metodos
+    public void generarTablero () { // Genera el tablero vacío y coloca los bordes
         for (int i=0 ; i<matriz.length ; i++){
             for (int j = 0; j<matriz[i].length ; j++){
                 if (i==0 || i==filas-1 || j==0 || j==columnas-1){
@@ -33,8 +34,39 @@ public class Tablero {
         System.out.println();
     }
 
-    public void mostrarTablero () {
-        //Tablero();
+    public void agregarMurosAleatorios() { //Generará los muros en posiciones aleatorias
+    }
+
+    public boolean estaDentroDelTablero(int fila, int columna) { //Verifica que una posición exista dentro de la matriz
+        if (fila >= 0 && fila < filas && columna >= 0 && columna< columnas){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean esPosicionInterior(int fila, int columna) { //Verifica que una posición no pertenezca a los bordes
+        if (fila > 0 && fila < filas - 1 && columna > 0 && columna < columnas - 1){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean estaPosicionLibre(int fila, int columna) { //Verifica que una posición no tenga otro elemento
+        if (esPosicionInterior(fila,columna) && matriz[fila][columna] == ' ' ){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean esMovimientoValido(int fila, int columna) { //Verifica si el jugador o enemigo puede desplazarse
+        return false;
+    }
+
+    public int[] obtenerPosicionLibreAleatoria() {  //Devuelve una posición aleatoria que se encuentre libre
+        return null;
+    }
+
+    public void mostrarTablero () { //Muestra la matriz en consola
         for (int i=0 ; i<matriz.length ; i++){
             for (int j = 0; j<matriz[0].length ; j++){
                 System.out.print(matriz[i][j] + " ");
@@ -43,22 +75,15 @@ public class Tablero {
         }
         System.out.println();
     }
-    public class Muro {
 
-        // Atributos
-        public int fila;
-        public int columna;
-
-        // Constructor
-        public Muro(int fila, int columna) {
-            this.fila = fila;
-            this.columna = columna;
-        }
-
-        // Devuelve la posición del muro
-        public int[] obtenerPosicion() {
-            return new int[]{fila, columna};
-        }
+    // Pendientes hasta recibir las otras clases
+    public void agregarPuntos() {
+        // Pendiente: se completará cuando la clase Punto esté terminada.
     }
+    public void agregarPoderes() {
+        // Pendiente: se completará cuando la clase Poder esté terminada.
+    }
+    public void colocarJugador()
+    public void colocarEnemigos()
 }
 
