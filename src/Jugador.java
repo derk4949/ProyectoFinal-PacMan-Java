@@ -78,7 +78,7 @@ public class Jugador {
         String nombreUsuario = lector.nextLine();
 
         //punto fijo en las filas y columnas
-        Jugador jugadorUnico = new Jugador(nombreUsuario, 5, 5);
+            Jugador jugadorUnico = new Jugador(nombreUsuario, 5, 5);
 
         jugadorUnico.mostrarEstado();
 
