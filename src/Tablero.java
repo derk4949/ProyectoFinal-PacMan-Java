@@ -1,3 +1,4 @@
+import java.util.Random;
 public class Tablero {
     // Atributos basicos de la clase
     private int filas;
@@ -17,7 +18,6 @@ public class Tablero {
         this.muros = new Muro[_cantMuros];
         this.poderes = new Poder[_cantPoderes];
         this.puntos = new Punto[_cantPuntos];
-
     }
 
     //Metodos
@@ -31,10 +31,18 @@ public class Tablero {
                 }
             }
         }
-        System.out.println();
+        //Aqui llamamos al metodo que genera los muros
+        agregarMurosAleatorios();
     }
 
     public void agregarMurosAleatorios() { //Generará los muros en posiciones aleatorias
+        for (int i=0; i< muros.length ; i++){
+            int[] posicion = obtenerPosicionLibreAleatoria();
+            int filaMuro = posicion[0];
+            int columnaMuro = posicion[1];
+            muros[i]= new Muro(filaMuro, columnaMuro);
+            matriz[filaMuro][columnaMuro] = '#';
+        }
     }
 
     public boolean estaDentroDelTablero(int fila, int columna) { //Verifica que una posición exista dentro de la matriz
@@ -59,16 +67,29 @@ public class Tablero {
     }
 
     public boolean esMovimientoValido(int fila, int columna) { //Verifica si el jugador o enemigo puede desplazarse
+        if (estaDentroDelTablero(fila,columna) && matriz[fila][columna] !='#'){
+            return true;
+        }
         return false;
     }
 
-    public int[] obtenerPosicionLibreAleatoria() {  //Devuelve una posición aleatoria que se encuentre libre
-        return null;
+    public int[] obtenerPosicionLibreAleatoria() {//Devuelve una posición aleatoria que se encuentre libre
+        Random aleatorio = new Random();
+        int filaAleatoria;
+        int columnaAleatoria;
+        do {
+            //Genera una posición
+            filaAleatoria = aleatorio.nextInt(filas -2) +1;
+            columnaAleatoria = aleatorio.nextInt(columnas -2) +1;
+
+        }while (!estaPosicionLibre(filaAleatoria, columnaAleatoria));
+
+        return new int[]{filaAleatoria, columnaAleatoria};
     }
 
     public void mostrarTablero () { //Muestra la matriz en consola
         for (int i=0 ; i<matriz.length ; i++){
-            for (int j = 0; j<matriz[0].length ; j++){
+            for (int j = 0; j<matriz[i].length ; j++){
                 System.out.print(matriz[i][j] + " ");
             }
             System.out.println();
@@ -78,12 +99,16 @@ public class Tablero {
 
     // Pendientes hasta recibir las otras clases
     public void agregarPuntos() {
-        // Pendiente: se completará cuando la clase Punto esté terminada.
+        // Pendiente: se completará cuando la clase Punto esté terminada
     }
     public void agregarPoderes() {
-        // Pendiente: se completará cuando la clase Poder esté terminada.
+        // Pendiente: se completará cuando la clase Poder esté terminada
     }
-    public void colocarJugador()
-    public void colocarEnemigos()
+    public void colocarJugador() {
+        // Pendiente: se completará cuando la clase Jugador esté terminada
+    }
+    public void colocarEnemigos() {
+        // Pendiente: se completará cuando la clase Enemigos esté terminada
+    }
 }
 
