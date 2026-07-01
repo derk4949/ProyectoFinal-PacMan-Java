@@ -1,7 +1,5 @@
-import java.util.Random;
 public class Enemigo1 {
     // ATRIBUTOS
-
     public String tipo;
     public int fila;
     public int columna;
@@ -9,25 +7,25 @@ public class Enemigo1 {
     public int vida;
     public boolean activo;
 
-
-    public Enemigo1 (int fila , int columna) {
+    //CONSTRUCTOR
+    public Enemigo1 (int _fila , int _columna) {
         this.tipo = "Perseguir";
-        this.fila=fila;
-        this.columna=columna;
+        this.fila= _fila;
+        this.columna= _columna;
         this.dano=1;
         this.activo=true;
         this.vida=1;
     }
     // MÉTODOS
     public void mover(Jugador jugador) {
-        if (this.fila<jugador.fila) { // 3 <5
+        if (this.fila<jugador.fila) { // Se compara las posiciones y se realiza movimientos
             this.fila=fila+1;
         } else {
             if (this.fila>jugador.fila){
                 this.fila=fila-1;
             }
         }
-        if (this.columna<jugador.columnna) { // 3 <5
+        if (this.columna<jugador.columnna) {
             this.columna=columna+1;
         } else {
             if (this.columna>jugador.columnna){
@@ -39,15 +37,15 @@ public class Enemigo1 {
     }
     public void atacar(Jugador jugador) {
         if((this.fila==jugador.fila)&&(this.columna==jugador.columnna)){
-            jugador.recibirDano();
+            jugador.recibirDano(); //se llama al metodo recibir daño de la clase jugador
         }
     }
 
     public boolean verificarColision(Jugador jugador) {
         if ((this.fila == jugador.fila) && (this.columna == jugador.columnna)) {
-            return true;
+            return true; //si hubo colision
         } else {
-            return false;
+            return false; //no hubo colision
         }
     }
 
@@ -73,7 +71,7 @@ public class Enemigo1 {
 
 
     }
-
+//----------------------------PRUEBA EN UN MAIN-----------------------------------------------------
     public static void main(String[]args){
         //COLOCAR DIMENSIONES DE LA MATRIZ PARA GENERAR UNA POSICION ALEATORIA
         Enemigo1 ElVerdugo = new Enemigo1(5,5);

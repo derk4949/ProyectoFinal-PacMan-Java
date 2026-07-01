@@ -10,16 +10,14 @@ public class Poder2 {
         this.duracion = duracion;
     }
 
-    // ACTIVA EL PODER
+    // Recibe al objeto jugador para poder modificarlo
     public void activar(Jugador jugador) {
         jugador.velocidad = jugador.velocidad + 1;
         jugador.poderActivo = true;
     }
 
-    // DEVUELVE LA DESCRIPCIÓN DEL PODER
     public String descripcion() {
-        return "Poder: " + tipo +
-                "\nEfecto: Aumenta la velocidad del jugador." +
-                "\nDuración: " + duracion + " turnos.";
+        return "Poder: " + tipo +  "\nEfecto: Aumenta la velocidad del jugador." +
+                "\nDuración: " + duracion + "Segundos//turnos.";
     }
 }
