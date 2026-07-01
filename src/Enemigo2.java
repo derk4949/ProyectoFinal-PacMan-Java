@@ -4,7 +4,7 @@ public class Enemigo2 {
     public String tipo;
     public int fila;
     public int columna;
-    public int daño;
+    public int danio;
     public boolean activo;
     public Random random;
 
@@ -12,7 +12,7 @@ public class Enemigo2 {
         this.tipo    = "Aleatorio";
         this.fila    = fila;
         this.columna = columna;
-        this.daño   = 1;
+        this.danio   = 1;
         this.activo  = true;
         this.random  = new Random();
     }
@@ -20,22 +20,33 @@ public class Enemigo2 {
 
 
     public void mover(Jugador jugador, Tablero tablero) {
-
         int direccion = random.nextInt(4);
         int nuevaFila    = fila;
         int nuevaColumna = columna;
 
-        if (direccion == 0)      nuevaFila--;    // Arriba
-        else if (direccion == 1) nuevaFila++;    // Abajo
-        else if (direccion == 2) nuevaColumna--; // Izquierda
-        else                     nuevaColumna++;
+        if (direccion == 0) {
+            nuevaFila--;    // Arriba
+        }
+        else if (direccion == 1) {
+            nuevaFila++;    // Abajo
+        }
+        else if (direccion == 2) {
+            nuevaColumna--; // Izquierda
+        }
+        else nuevaColumna++;
 
-
+        if (tablero.esMovimientoValido(nuevaFila, nuevaColumna)) {
+            fila    = nuevaFila;
+            columna = nuevaColumna;
+        }
     }
 
-    public void atacar(jugador jugador){
+
+
+
+    public void atacar(Jugador jugador){
         System.out.println("El enemigote choco!");
-        jugador.recibirDaño(daño);
+        jugador.recibirDanio(danio);
 
     }
     public boolean verificarColision(){
@@ -47,5 +58,10 @@ public class Enemigo2 {
 
     }
 
+    public static void main(String[]args) {
+        //COLOCAR DIMENSIONES DE LA MATRIZ PARA GENERAR UNA POSICION ALEATORIA
+        Enemigo2 ElVerdugo = new Enemigo2(5, 5);
+        ElVerdugo.mostrarEstado();
+    }
 
 }
