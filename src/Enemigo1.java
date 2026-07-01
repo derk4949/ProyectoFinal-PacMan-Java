@@ -19,20 +19,38 @@ public class Enemigo1 {
         this.vida=1;
     }
     // MÉTODOS
-    public void mover() {
+    public void mover(Jugador jugador) {
+        if (this.fila<jugador.fila) { // 3 <5
+            this.fila=fila+1;
+        } else {
+            if (this.fila>jugador.fila){
+                this.fila=fila-1;
+            }
+        }
+        if (this.columna<jugador.columnna) { // 3 <5
+            this.columna=columna+1;
+        } else {
+            if (this.columna>jugador.columnna){
+                this.columna=columna-1;
+            }
+        }
 
 
     }
-
-    public void atacar() {
-
+    public void atacar(Jugador jugador) {
+        if((this.fila==jugador.fila)&&(this.columna==jugador.columnna)){
+            jugador.recibirDano();
+        }
     }
 
-    public void verificarColision() {
-
-
-
+    public boolean verificarColision(Jugador jugador) {
+        if ((this.fila == jugador.fila) && (this.columna == jugador.columnna)) {
+            return true;
+        } else {
+            return false;
+        }
     }
+
     public boolean estaVivo () {
         if (this.vida>0){
             return true;
@@ -57,13 +75,8 @@ public class Enemigo1 {
     }
 
     public static void main(String[]args){
-        Random posicion = new Random();
         //COLOCAR DIMENSIONES DE LA MATRIZ PARA GENERAR UNA POSICION ALEATORIA
-        int Fila = 10;
-        int Columna =10;
-        int filaAleatoria=posicion.nextInt(Fila);
-        int columnaAleatoria=posicion.nextInt(Columna);
-        Enemigo1 ElVerdugo = new Enemigo1(filaAleatoria,columnaAleatoria);
+        Enemigo1 ElVerdugo = new Enemigo1(5,5);
         ElVerdugo.mostrarEstado();
 
     }

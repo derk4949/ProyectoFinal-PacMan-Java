@@ -104,6 +104,7 @@ public class Jugador {
             jugadorUnico.mostrarEstado();
         }
         System.out.println("FIN DE LA PARTIDA");
+        lector.close();
 
     }
 }
