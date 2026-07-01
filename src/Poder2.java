@@ -1,21 +1,25 @@
 public class Poder2 {
+
     // ATRIBUTOS
-    public String tipo;
-    public int duracion;
-    public int posicion;
+    private String tipo;
+    private int duracion;
 
-    public Poder2(int duracion,int Pfila , int Pcolumna){
-        this.tipo="Velocidad";
-        this.duracion=duracion;
+    // CONSTRUCTOR
+    public Poder2(int duracion) {
+        this.tipo = "Velocidad aumentada";
+        this.duracion = duracion;
     }
 
-    // MÉTODOS
+    // ACTIVA EL PODER
     public void activar(Jugador jugador) {
-
+        jugador.velocidad = jugador.velocidad + 1;
+        jugador.poderActivo = true;
     }
 
-    public void descripcion() {
-
+    // DEVUELVE LA DESCRIPCIÓN DEL PODER
+    public String descripcion() {
+        return "Poder: " + tipo +
+                "\nEfecto: Aumenta la velocidad del jugador." +
+                "\nDuración: " + duracion + " turnos.";
     }
-
 }
