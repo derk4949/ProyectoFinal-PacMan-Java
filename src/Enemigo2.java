@@ -8,6 +8,7 @@ public class Enemigo2 {
     public boolean activo;
     public Random random;
 
+
     public Enemigo2(int fila, int columna) {
         this.tipo    = "Aleatorio";
         this.fila    = fila;
@@ -17,9 +18,9 @@ public class Enemigo2 {
         this.random  = new Random();
     }
 
-
-
     public void mover(Jugador jugador, Tablero tablero) {
+        if (!activo) return;
+
         int direccion = random.nextInt(4);
         int nuevaFila    = fila;
         int nuevaColumna = columna;
@@ -41,27 +42,18 @@ public class Enemigo2 {
         }
     }
 
-
-
-
     public void atacar(Jugador jugador){
         System.out.println("El enemigote choco!");
-        jugador.recibirDanio(danio);
-
+        jugador.recibirDanio(danio); //dano
     }
-    public boolean verificarColision(){
-        return false;
 
+    public boolean verificarColision(Jugador jugador) {
+
+        return fila == jugador.getFila() && columna == jugador.getColumna();
     }
+
     public void mostrarEstado(){
         System.out.println("Enemigo 2 [" + tipo + "] en posición: " + fila + "," + columna);
 
     }
-
-    public static void main(String[]args) {
-        //COLOCAR DIMENSIONES DE LA MATRIZ PARA GENERAR UNA POSICION ALEATORIA
-        Enemigo2 ElVerdugo = new Enemigo2(5, 5);
-        ElVerdugo.mostrarEstado();
-    }
-
 }
