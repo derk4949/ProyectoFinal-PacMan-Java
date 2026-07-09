@@ -1,12 +1,12 @@
 import java.util.Random;
 
 public class Enemigo2 {
-    public String tipo;
-    public int fila;
-    public int columna;
-    public int danio;
-    public boolean activo;
-    public Random random;
+    private String tipo;
+    private int fila;
+    private int columna;
+    private int danio;
+    private boolean activo;
+    private Random random;
 
 
     public Enemigo2(int fila, int columna) {
@@ -17,6 +17,32 @@ public class Enemigo2 {
         this.activo  = true;
         this.random  = new Random();
     }
+
+
+    public int getFila() {
+        return fila;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public int getDanio() {
+        return danio;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
 
     public void mover(Jugador jugador, Tablero tablero) {
         if (!activo) return;
@@ -43,7 +69,7 @@ public class Enemigo2 {
     }
 
     public void atacar(Jugador jugador){
-        System.out.println("El enemigote choco!");
+        System.out.println("El enemigo te choco!");
         jugador.recibirDanio(danio); //dano
     }
 
