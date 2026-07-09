@@ -1,17 +1,37 @@
 import java.util.Scanner;
 public class Juego {
-    public Jugador jugador;
-    public Tablero tablero;
-    public boolean juegoTerminado;
-    public Scanner scanner;
-    public int turno;
+    private Jugador jugador;
+    private Tablero tablero;
+    private boolean juegoTerminado;
+    private Scanner scanner;
+    private int turno;
 
 
     public Juego() {
         this.juegoTerminado = false;
         this.scanner = new Scanner(System.in);
-
+        this.turno = 0;
     }
+
+
+    public Jugador getJugador() {
+        return jugador;
+    }
+
+    public Tablero getTablero() {
+        return tablero;
+    }
+
+    public boolean isJuegoTerminado() {
+        return juegoTerminado;
+    }
+
+    public int getTurno() {
+        return turno;
+    }
+
+
+
 
     public void iniciarJuego() {
         mostrarMenu();
