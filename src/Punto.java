@@ -8,7 +8,7 @@ public class Punto {
 
         this.fila        = fila;
         this.columna     = columna;
-        this.valor       = 10;
+        this.valor       = valor;
         this.recolectado = false;
     }
 
@@ -23,7 +23,15 @@ public class Punto {
         return recolectado;
     }
 
+    public void recolectar() {
+        this.recolectado = true;
+    }
 
+    public void mostrarEstado() {
+        System.out.println("Punto en posición: [" + fila + "," + columna + "]");
+        System.out.println("Valor: " + valor
+                + " - ¿Recolectado?: " + (recolectado ? "Sí" : "No"));
+    }
 
 }
 
