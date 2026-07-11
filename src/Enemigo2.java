@@ -21,11 +21,11 @@ public class Enemigo2 {
 
 
     public int getFila() {
-        return fila;
+        return this.fila;
     }
 
     public int getColumna() {
-        return columna;
+        return this.columna;
     }
 
     public String getTipo() {
@@ -74,10 +74,10 @@ public class Enemigo2 {
         jugador.recibirDanio(danio); //dano
     }
 
-    public boolean verificarColision(Jugador jugador) {
+   // public boolean verificarColision(Jugador jugador) {
 
-        return fila == jugador.getFila() && columna == jugador.getColumna();
-    }
+  //      return fila == jugador.getFila() && columna == jugador.getColumna();
+   // }
 
     public void mostrarEstado(){
         System.out.println("Enemigo 2 [" + tipo + "] en posición: " + fila + "," + columna);

@@ -42,7 +42,7 @@ public class Juego {
 
         } else if (entrada.equals("1")) {
             System.out.println("Creando el mundo...");
-            this.tablero = new Tablero();
+
             this.jugador = new Jugador();
 
             while(!juegoTerminado) {
@@ -76,5 +76,16 @@ public class Juego {
         System.out.println("   2. Salir               ");
         System.out.println("--------------------------");
         System.out.print("Elige una opcion: ");
+    }
+}
+
+class pruebajuego {
+    public static void main(String[] args) {
+        Tablero miTablero = new Tablero(10, 10, 5, 0, 0);
+        miTablero.generarTablero();
+        miTablero.mostrarTablero();
+        Enemigo2 aleatorio = new Enemigo2(2,3);
+
+        aleatorio.mostrarEstado();
     }
 }
