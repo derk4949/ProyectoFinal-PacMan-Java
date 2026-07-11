@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 public class Juego {
     private Jugador jugador;
@@ -41,15 +42,26 @@ public class Juego {
             System.out.println("Hasta luego!");
 
         } else if (entrada.equals("1")) {
+            Scanner lector = new Scanner(System.in);
             System.out.println("Creando el mundo...");
-
+            System.out.println("añade dimension tablero filas");
+            int filaT = lector.nextInt();
+            System.out.println("añade dimension tablero columnas");
+            int columnaT = lector.nextInt();
             this.jugador = new Jugador();
 
             while(!juegoTerminado) {
+                Tablero tabla = new Tablero(filaT,columnaT,5,5,0);
+                tabla.generarTablero();
+                Enemigo2 aleatorio = new Enemigo2(2,4);
+                tabla.colocarEnemigos2(aleatorio);
+                tabla.mostrarTablero();
+
                 actualizarTablero();
                 mostrarEstado();
                 ejecutarTurno();
                 verificarFinJuego();
+                juegoTerminado = true;
             }
         } else {
             System.out.println("Opción no válida. Reinicia el juego.");
@@ -83,11 +95,9 @@ class pruebajuego {
     public static void main(String[] args) {
         Tablero miTablero = new Tablero(10, 10, 5, 0, 0);
         miTablero.generarTablero();
-        Enemigo2 aleatorio = new Enemigo2(2,3);
+        Enemigo2 aleatorio = new Enemigo2(3,5);
         miTablero.colocarEnemigos2(aleatorio);
         miTablero.mostrarTablero();
-
-
 
         aleatorio.mostrarEstado();
     }
