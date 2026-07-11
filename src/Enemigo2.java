@@ -9,6 +9,7 @@ public class Enemigo2 {
     private Random random;
 
 
+
     public Enemigo2(int fila, int columna) {
         this.tipo    = "Aleatorio";
         this.fila    = fila;
