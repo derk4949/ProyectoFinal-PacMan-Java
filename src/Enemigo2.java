@@ -8,7 +8,6 @@ public class Enemigo2 {
     private boolean activo;
     private Random random;
 
-
     public Enemigo2(int fila, int columna) {
         this.tipo    = "Aleatorio";
         this.fila    = fila;
@@ -17,7 +16,6 @@ public class Enemigo2 {
         this.activo  = true;
         this.random  = new Random();
     }
-
 
     public int getFila() {
         return fila;
@@ -42,7 +40,6 @@ public class Enemigo2 {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
-
 
     public void mover(Jugador jugador, Tablero tablero) {
         if (!activo) return;
@@ -70,7 +67,7 @@ public class Enemigo2 {
 
     public void atacar(Jugador jugador){
         System.out.println("El enemigo te choco!");
-        jugador.recibirDanio(danio); //dano
+        jugador.recibirDanio(danio);
     }
 
     public boolean verificarColision(Jugador jugador) {

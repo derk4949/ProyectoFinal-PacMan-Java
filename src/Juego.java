@@ -6,13 +6,11 @@ public class Juego {
     private Scanner scanner;
     private int turno;
 
-
     public Juego() {
         this.juegoTerminado = false;
         this.scanner = new Scanner(System.in);
         this.turno = 0;
     }
-
 
     public Jugador getJugador() {
         return jugador;
@@ -30,9 +28,6 @@ public class Juego {
         return turno;
     }
 
-
-
-
     public void iniciarJuego() {
         mostrarMenu();
         String entrada = scanner.nextLine().trim();
@@ -42,7 +37,7 @@ public class Juego {
 
         } else if (entrada.equals("1")) {
             System.out.println("Creando el mundo...");
-            this.tablero = new Tablero();
+
             this.jugador = new Jugador();
 
             while(!juegoTerminado) {
@@ -78,3 +73,4 @@ public class Juego {
         System.out.print("Elige una opcion: ");
     }
 }
+

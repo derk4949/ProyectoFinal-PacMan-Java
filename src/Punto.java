@@ -11,7 +11,6 @@ public class Punto {
         this.recolectado = false;
     }
 
-
     public int getFila() {
         return fila;
     }
