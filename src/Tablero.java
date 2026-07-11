@@ -111,7 +111,13 @@ public class Tablero {
         // Pendiente: se completará cuando la clase Jugador esté terminada
     }
     public void colocarEnemigos() {
+        // Pendiente: se completará cuando la clase Enemigos esté terminada
+    }
+    public void colocarEnemigos2(Enemigo2 enemigo2) {
+        int filaEnemigo2 = enemigo2.getFila();
+        int columnaEnemigo2 = enemigo2.getColumna();
 
+        this.matriz[filaEnemigo2][columnaEnemigo2] = 'A';
         // Pendiente: se completará cuando la clase Enemigos esté terminada
     }
 }

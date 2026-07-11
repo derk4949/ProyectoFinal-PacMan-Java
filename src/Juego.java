@@ -83,8 +83,11 @@ class pruebajuego {
     public static void main(String[] args) {
         Tablero miTablero = new Tablero(10, 10, 5, 0, 0);
         miTablero.generarTablero();
-        miTablero.mostrarTablero();
         Enemigo2 aleatorio = new Enemigo2(2,3);
+        miTablero.colocarEnemigos2(aleatorio);
+        miTablero.mostrarTablero();
+
+
 
         aleatorio.mostrarEstado();
     }
