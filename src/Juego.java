@@ -50,27 +50,21 @@ public class Juego {
             int columnaT = lector.nextInt();
         //    this.jugador = new Jugador("leonardo",5,5);
 
+            Tablero tabla = new Tablero(filaT,columnaT,filaT+5,5,0);
+            tabla.generarTablero();
+
+            int []posicionLibre = tabla.obtenerPosicionLibreAleatoria();
+            int filaFantasma = posicionLibre[0];
+            int colFantasma = posicionLibre[1];
+            Enemigo2 aleatorio = new Enemigo2(filaFantasma,colFantasma);
+            tabla.colocarEnemigos2(aleatorio);
+
+            Jugador jugador1 = new Jugador("leonardo",2,2);
+            tabla.colocarJugador(jugador1);
+            tabla.mostrarTablero();
+            lector.nextInt();
+
             while(!juegoTerminado) {
-                Tablero tabla = new Tablero(filaT,columnaT,filaT+5,5,0);
-                tabla.generarTablero();
-
-                int []posicionLibre = tabla.obtenerPosicionLibreAleatoria();
-                int filaFantasma = posicionLibre[0];
-                int colFantasma = posicionLibre[1];
-
-                Enemigo2 aleatorio = new Enemigo2(filaFantasma,colFantasma);
-                tabla.colocarEnemigos2(aleatorio);
-                Jugador jugador1 = new Jugador("leonardo",2,2);
-                tabla.colocarJugador(jugador1);
-                tabla.mostrarTablero();
-                lector.nextInt();
-                System.out.println("APRETA TECLA");
-                String direccionUsuario = lector.nextLine();
-                jugador1.mover(direccionUsuario);
-
-
-
-
 
                 actualizarTablero();
                 mostrarEstado();
@@ -86,13 +80,17 @@ public class Juego {
 
     }
     public void actualizarTablero() {
+        tablero.generarTablero();
+        tablero.colocarJugador(jugador);
 
     }
     public void ejecutarTurno() {
-
+        Scanner lector = new Scanner(System.in);
+        System.out.println("APRETA TECLA");
+        String direccionUsuario = lector.nextLine();
         jugador.mover(direccionUsuario);
 
-        aleatorio.mover(jugador, tablero);
+
 
     }
     public void verificarFinJuego() {
