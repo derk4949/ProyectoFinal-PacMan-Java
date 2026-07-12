@@ -71,7 +71,7 @@ public class Enemigo2 {
 
     public void atacar(Jugador jugador){
         System.out.println("El enemigo te choco!");
-        jugador.recibirDanio(danio); //dano
+        jugador.recibirDanio(); //dano
     }
 
    // public boolean verificarColision(Jugador jugador) {

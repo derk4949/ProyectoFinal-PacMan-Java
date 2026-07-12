@@ -48,20 +48,24 @@ public class Juego {
             int filaT = lector.nextInt();
             System.out.println("añade dimension tablero columnas");
             int columnaT = lector.nextInt();
-            this.jugador = new Jugador();
+        //    this.jugador = new Jugador("leonardo",5,5);
 
             while(!juegoTerminado) {
-                Tablero tabla = new Tablero(filaT,columnaT,5,5,0);
+                Tablero tabla = new Tablero(filaT,columnaT,filaT+5,5,0);
                 tabla.generarTablero();
                 Enemigo2 aleatorio = new Enemigo2(2,4);
                 tabla.colocarEnemigos2(aleatorio);
+                Jugador Leonardo = new Jugador("leonardo",2,2);
+                tabla.colocarJugador(Leonardo);
                 tabla.mostrarTablero();
-
+                lector.nextInt();
+                System.out.println("APRETA TECLA");
+                String direccion = lector.nextLine();
+                Leonardo.mover(direccion);
                 actualizarTablero();
                 mostrarEstado();
                 ejecutarTurno();
                 verificarFinJuego();
-                juegoTerminado = true;
             }
         } else {
             System.out.println("Opción no válida. Reinicia el juego.");

@@ -107,12 +107,18 @@ public class Tablero {
     public void agregarPoderes() {
         // Pendiente: se completará cuando la clase Poder esté terminada
     }
-    public void colocarJugador() {
+    public void colocarJugador(Jugador Leonardo) {
         // Pendiente: se completará cuando la clase Jugador esté terminada
+        int filajugador = Leonardo.getFila();
+        int columnajugador = Leonardo.getColumna();
+
+        this.matriz[filajugador][columnajugador] = 'J';
     }
     public void colocarEnemigos() {
         // Pendiente: se completará cuando la clase Enemigos esté terminada
     }
+
+
     public void colocarEnemigos2(Enemigo2 enemigo2) {
         int filaEnemigo2 = enemigo2.getFila();
         int columnaEnemigo2 = enemigo2.getColumna();
