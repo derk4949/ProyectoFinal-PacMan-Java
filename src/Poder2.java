@@ -12,8 +12,14 @@ public class Poder2 {
 
     // Recibe al objeto jugador para poder modificarlo
     public void activar(Jugador jugador) {
-        jugador.velocidad = jugador.velocidad + 1;
-        jugador.poderActivo = true;
+        jugador.setVelocidad(jugador.getVelocidad() + 1);
+        jugador.setPoderActivo(true);
+    }
+
+    // Revierte el efecto cuando el poder termina
+    public void desactivar(Jugador jugador) {
+        jugador.setVelocidad(jugador.getVelocidad() - 1);
+        jugador.setPoderActivo(false);
     }
 
     public String descripcion() {
