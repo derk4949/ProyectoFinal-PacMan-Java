@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 public class Juego {
     private Jugador jugador;
@@ -6,11 +7,13 @@ public class Juego {
     private Scanner scanner;
     private int turno;
 
+
     public Juego() {
         this.juegoTerminado = false;
         this.scanner = new Scanner(System.in);
         this.turno = 0;
     }
+
 
     public Jugador getJugador() {
         return jugador;
@@ -28,6 +31,9 @@ public class Juego {
         return turno;
     }
 
+
+
+
     public void iniciarJuego() {
         mostrarMenu();
         String entrada = scanner.nextLine().trim();
@@ -36,11 +42,26 @@ public class Juego {
             System.out.println("Hasta luego!");
 
         } else if (entrada.equals("1")) {
+            Scanner lector = new Scanner(System.in);
             System.out.println("Creando el mundo...");
-
-            this.jugador = new Jugador();
+            System.out.println("añade dimension tablero filas");
+            int filaT = lector.nextInt();
+            System.out.println("añade dimension tablero columnas");
+            int columnaT = lector.nextInt();
+        //    this.jugador = new Jugador("leonardo",5,5);
 
             while(!juegoTerminado) {
+                Tablero tabla = new Tablero(filaT,columnaT,filaT+5,5,0);
+                tabla.generarTablero();
+                Enemigo2 aleatorio = new Enemigo2(2,4);
+                tabla.colocarEnemigos2(aleatorio);
+                Jugador Leonardo = new Jugador("leonardo",2,2);
+                tabla.colocarJugador(Leonardo);
+                tabla.mostrarTablero();
+                lector.nextInt();
+                System.out.println("APRETA TECLA");
+                String direccion = lector.nextLine();
+                Leonardo.mover(direccion);
                 actualizarTablero();
                 mostrarEstado();
                 ejecutarTurno();
@@ -74,3 +95,14 @@ public class Juego {
     }
 }
 
+class pruebajuego {
+    public static void main(String[] args) {
+        Tablero miTablero = new Tablero(10, 10, 5, 0, 0);
+        miTablero.generarTablero();
+        Enemigo2 aleatorio = new Enemigo2(3,5);
+        miTablero.colocarEnemigos2(aleatorio);
+        miTablero.mostrarTablero();
+
+        aleatorio.mostrarEstado();
+    }
+}

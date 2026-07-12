@@ -10,7 +10,6 @@ public class Tablero {
     private Punto[] puntos;
     private Poder1[] poderes;
 
-
     //Constructor
     public Tablero (int _filas, int _columnas, int _cantMuros, int _cantPuntos, int _cantPoderes) {
         this.filas = _filas;
@@ -27,6 +26,7 @@ public class Tablero {
             for (int j = 0; j<matriz[i].length ; j++){
                 if (i==0 || i==filas-1 || j==0 || j==columnas-1){
                     matriz[i][j] = '#';
+
                 }else{
                     matriz[i][j] = ' ';
                 }
@@ -42,7 +42,9 @@ public class Tablero {
             int filaMuro = posicion[0];
             int columnaMuro = posicion[1];
             muros[i]= new Muro(filaMuro, columnaMuro);
+
             matriz[filaMuro][columnaMuro] = '#';
+
         }
     }
 
@@ -105,10 +107,34 @@ public class Tablero {
     public void agregarPoderes() {
         // Pendiente: se completará cuando la clase Poder esté terminada
     }
-    public void colocarJugador() {
+    public void colocarJugador(Jugador Leonardo) {
         // Pendiente: se completará cuando la clase Jugador esté terminada
+        int filajugador = Leonardo.getFila();
+        int columnajugador = Leonardo.getColumna();
+
+        this.matriz[filajugador][columnajugador] = 'J';
     }
     public void colocarEnemigos() {
         // Pendiente: se completará cuando la clase Enemigos esté terminada
+    }
+
+
+    public void colocarEnemigos2(Enemigo2 enemigo2) {
+        int filaEnemigo2 = enemigo2.getFila();
+        int columnaEnemigo2 = enemigo2.getColumna();
+
+        this.matriz[filaEnemigo2][columnaEnemigo2] = 'A';
+        // Pendiente: se completará cuando la clase Enemigos esté terminada
+    }
+}
+
+class PruebaTablero{
+    public static void main(String[]args){
+        Tablero tabla = new Tablero(10,10,6,4,5);
+
+        tabla.generarTablero();
+        tabla.mostrarTablero();
+
+
     }
 }
