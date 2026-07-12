@@ -50,18 +50,18 @@ public class Juego {
             int columnaT = lector.nextInt();
         //    this.jugador = new Jugador("leonardo",5,5);
 
-            Tablero tabla = new Tablero(filaT,columnaT,filaT+5,5,0);
-            tabla.generarTablero();
+            this.tablero = new Tablero(filaT,columnaT,filaT+5,5,0);
+            this.tablero.generarTablero();
 
-            int []posicionLibre = tabla.obtenerPosicionLibreAleatoria();
+            int []posicionLibre = this.tablero.obtenerPosicionLibreAleatoria();
             int filaFantasma = posicionLibre[0];
             int colFantasma = posicionLibre[1];
             Enemigo2 aleatorio = new Enemigo2(filaFantasma,colFantasma);
-            tabla.colocarEnemigos2(aleatorio);
+            this.tablero.colocarEnemigos2(aleatorio);
 
-            Jugador jugador1 = new Jugador("leonardo",2,2);
-            tabla.colocarJugador(jugador1);
-            tabla.mostrarTablero();
+            this.jugador = new Jugador("leonardo",2,2);
+            this.tablero.colocarJugador(jugador);
+            this.tablero.mostrarTablero();
             lector.nextInt();
 
             while(!juegoTerminado) {
