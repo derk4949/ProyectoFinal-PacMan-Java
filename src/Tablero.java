@@ -22,9 +22,9 @@ public class Tablero {
 
     //Metodos
     public void generarTablero () { // Genera el tablero vacío y coloca los bordes
-        for (int i=0 ; i<matriz.length ; i++){
-            for (int j = 0; j<matriz[i].length ; j++){
-                if (i==0 || i==filas-1 || j==0 || j==columnas-1){
+        for (int i=0 ; i<matriz.length ; i++){//filas
+            for (int j = 0; j<matriz[i].length ; j++){//columnas
+                if (i==0 || i==filas-1 || j==0 || j==columnas-1){//i pregunta si esta en a fila y j en la columna
                     matriz[i][j] = '#';
                 }else{
                     matriz[i][j] = ' ';
@@ -87,7 +87,7 @@ public class Tablero {
         return new int[]{filaAleatoria, columnaAleatoria};
     }
 
-    public void mostrarTablero () { //Muestra la matriz en consola
+    public void mostrarTablero () { //Imprime lo que encuentra en cada casilla de la matriz
         for (int i=0 ; i<matriz.length ; i++){
             for (int j = 0; j<matriz[i].length ; j++){
                 System.out.print(matriz[i][j] + " ");
