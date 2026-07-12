@@ -53,15 +53,25 @@ public class Juego {
             while(!juegoTerminado) {
                 Tablero tabla = new Tablero(filaT,columnaT,filaT+5,5,0);
                 tabla.generarTablero();
-                Enemigo2 aleatorio = new Enemigo2(2,4);
+
+                int []posicionLibre = tabla.obtenerPosicionLibreAleatoria();
+                int filaFantasma = posicionLibre[0];
+                int colFantasma = posicionLibre[1];
+
+                Enemigo2 aleatorio = new Enemigo2(filaFantasma,colFantasma);
                 tabla.colocarEnemigos2(aleatorio);
-                Jugador Leonardo = new Jugador("leonardo",2,2);
-                tabla.colocarJugador(Leonardo);
+                Jugador jugador1 = new Jugador("leonardo",2,2);
+                tabla.colocarJugador(jugador1);
                 tabla.mostrarTablero();
                 lector.nextInt();
                 System.out.println("APRETA TECLA");
-                String direccion = lector.nextLine();
-                Leonardo.mover(direccion);
+                String direccionUsuario = lector.nextLine();
+                jugador1.mover(direccionUsuario);
+
+
+
+
+
                 actualizarTablero();
                 mostrarEstado();
                 ejecutarTurno();
@@ -79,6 +89,10 @@ public class Juego {
 
     }
     public void ejecutarTurno() {
+
+        jugador.mover(direccionUsuario);
+
+        aleatorio.mover(jugador, tablero);
 
     }
     public void verificarFinJuego() {
