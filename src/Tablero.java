@@ -8,7 +8,7 @@ public class Tablero {
     //Atributos de los objetos
     private Muro[] muros;
     private Punto[] puntos;
-    private Poder[] poderes;
+    private Poder1[] poderes;
 
 
     //Constructor
@@ -17,7 +17,7 @@ public class Tablero {
         this.columnas = _columnas;
         this.matriz = new char[filas][columnas];
         this.muros = new Muro[_cantMuros];
-        this.poderes = new Poder[_cantPoderes];
+        this.poderes = new Poder1[_cantPoderes];
         this.puntos = new Punto[_cantPuntos];
     }
 
