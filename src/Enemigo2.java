@@ -70,10 +70,10 @@ public class Enemigo2 {
         jugador.recibirDanio(danio);
     }
 
-    public boolean verificarColision(Jugador jugador) {
+    //public boolean verificarColision(Jugador jugador) {
 
-        return fila == jugador.getFila() && columna == jugador.getColumna();
-    }
+   //     return fila == jugador.getFila() && columna == jugador.getColumna();
+    //}
 
     public void mostrarEstado(){
         System.out.println("Enemigo 2 [" + tipo + "] en posición: " + fila + "," + columna);
