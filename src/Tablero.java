@@ -10,6 +10,7 @@ public class Tablero {
     private Punto[] puntos;
     private Poder[] poderes;
 
+
     //Constructor
     public Tablero (int _filas, int _columnas, int _cantMuros, int _cantPuntos, int _cantPoderes) {
         this.filas = _filas;
