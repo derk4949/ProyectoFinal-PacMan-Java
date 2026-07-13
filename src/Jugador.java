@@ -73,7 +73,7 @@ public class Jugador {
 
     // 5. MÉTODOS
 
-    public void mover(String direccion) {
+    public void mover(String direccion, Tablero tablero) {
         switch (direccion.toUpperCase()) {
             case "W":
                 this.fila -= this.velocidad;

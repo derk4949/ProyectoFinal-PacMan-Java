@@ -6,6 +6,7 @@ public class Juego {
     private boolean juegoTerminado;
     private Scanner scanner;
     private int turno;
+    private Enemigo2 aleatorio;
 
 
     public Juego() {
@@ -42,35 +43,32 @@ public class Juego {
             System.out.println("Hasta luego!");
 
         } else if (entrada.equals("1")) {
-            Scanner lector = new Scanner(System.in);
             System.out.println("Creando el mundo...");
             System.out.println("añade dimension tablero filas");
-            int filaT = lector.nextInt();
+            int filaT = scanner.nextInt();
             System.out.println("añade dimension tablero columnas");
-            int columnaT = lector.nextInt();
+            int columnaT = scanner.nextInt();
         //    this.jugador = new Jugador("leonardo",5,5);
-            if (filaT > 5 && columnaT > 5) {
-                this.tablero = new Tablero(filaT,columnaT,filaT+5,5,0);
-                this.tablero.generarTablero();
-            }
-            else{
-                System.out.println("Error tamaño de tablero invalido porfavor introduce un valor mayor a 5 ");
-            }
+
+            this.tablero = new Tablero(filaT,columnaT,filaT+5,5,0);
+            this.tablero.generarTablero();
+
 
 
             int []posicionLibre = this.tablero.obtenerPosicionLibreAleatoria();
+
             int filaFantasma = posicionLibre[0];
             int colFantasma = posicionLibre[1];
-            Enemigo2 aleatorio = new Enemigo2(filaFantasma,colFantasma);
+            this.aleatorio = new Enemigo2(filaFantasma,colFantasma);
             this.tablero.colocarEnemigos2(aleatorio);
 
             this.jugador = new Jugador("leonardo",2,2);
             this.tablero.colocarJugador(jugador);
             this.tablero.mostrarTablero();
-            lector.nextInt();
+
 
             while(!juegoTerminado) {
-
+                ejecutarTurno();
                 actualizarTablero();
                 mostrarEstado();
                 ejecutarTurno();
@@ -85,16 +83,16 @@ public class Juego {
 
     }
     public void actualizarTablero() {
-        tablero.generarTablero();
-        tablero.colocarJugador(jugador);
-
+        this.tablero.mostrarTablero();
+        this.tablero.colocarJugador(this.jugador);
+        this.tablero.colocarEnemigos2(this.aleatorio);
     }
-    public void ejecutarTurno() {
-        Scanner lector = new Scanner(System.in);
-        System.out.println("APRETA TECLA");
-        String direccionUsuario = lector.nextLine();
-        jugador.mover(direccionUsuario);
 
+    public void ejecutarTurno() {
+        System.out.println("apreta para mover");
+        String direccion = scanner.nextLine();
+        this.aleatorio.mover(this.jugador, this.tablero);
+        this.jugador.mover(direccion, this.tablero);
 
 
     }
