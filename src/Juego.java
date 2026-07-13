@@ -49,9 +49,15 @@ public class Juego {
             System.out.println("añade dimension tablero columnas");
             int columnaT = lector.nextInt();
         //    this.jugador = new Jugador("leonardo",5,5);
+            if (filaT > 5 && columnaT > 5) {
+                this.tablero = new Tablero(filaT,columnaT,filaT+5,5,0);
+                this.tablero.generarTablero();
+            }
+            else{
+                System.out.println("Error tamaño de tablero invalido porfavor introduce un valor mayor a 5 ");
+            }
 
-            this.tablero = new Tablero(filaT,columnaT,filaT+5,5,0);
-            this.tablero.generarTablero();
+
 
             int []posicionLibre = this.tablero.obtenerPosicionLibreAleatoria();
             int filaFantasma = posicionLibre[0];
