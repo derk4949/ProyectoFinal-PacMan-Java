@@ -58,7 +58,6 @@ public class Juego {
             }
 
 
-
             int []posicionLibre = this.tablero.obtenerPosicionLibreAleatoria();
             int filaFantasma = posicionLibre[0];
             int colFantasma = posicionLibre[1];
