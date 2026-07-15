@@ -36,6 +36,7 @@ public class Tablero {
         agregarMurosAleatorios();
     }
 
+
     public void agregarMurosAleatorios() { //Generará los muros en posiciones aleatorias
         for (int i=0; i< muros.length ; i++){
             int[] posicion = obtenerPosicionLibreAleatoria();
@@ -44,7 +45,6 @@ public class Tablero {
             muros[i]= new Muro(filaMuro, columnaMuro);
 
             matriz[filaMuro][columnaMuro] = '#';
-
         }
     }
 
