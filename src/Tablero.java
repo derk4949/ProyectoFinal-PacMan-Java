@@ -118,7 +118,6 @@ public class Tablero {
         // Pendiente: se completará cuando la clase Enemigos esté terminada
     }
 
-
     public void colocarEnemigos2(Enemigo2 enemigo2) {
         int filaEnemigo2 = enemigo2.getFila();
         int columnaEnemigo2 = enemigo2.getColumna();
@@ -126,7 +125,13 @@ public class Tablero {
         this.matriz[filaEnemigo2][columnaEnemigo2] = 'A';
         // Pendiente: se completará cuando la clase Enemigos esté terminada
     }
+
+    public void limpiarPosicion(int nuevaFila, int nuevaColumna){
+        this.matriz[nuevaFila][nuevaColumna] = ' ';
+    }
+
 }
+
 
 class PruebaTablero{
     public static void main(String[]args){

@@ -96,6 +96,7 @@ public class Jugador {
         }
 
         if (tablero.esMovimientoValido(nuevaFila, nuevaColumna)) {
+            tablero.limpiarPosicion(this.fila, this.columna);
             this.fila = nuevaFila;
             this.columna = nuevaColumna;
         }
