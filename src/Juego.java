@@ -33,8 +33,6 @@ public class Juego {
     }
 
 
-
-
     public void iniciarJuego() {
         mostrarMenu();
         String entrada = scanner.nextLine().trim();

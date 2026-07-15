@@ -64,7 +64,7 @@ public class Enemigo2 {
         else nuevaColumna++;
 
         if (tablero.esMovimientoValido(nuevaFila, nuevaColumna)) {
-            tablero.limpiarPosicion(this.fila,this.columna);
+            tablero.limpiarPosicion(this.fila, this.columna);
             this.fila = nuevaFila;
             this.columna = nuevaColumna;
         }
