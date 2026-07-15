@@ -13,10 +13,10 @@ public class Jugador {
 
 
     // 2. CONSTRUCTOR
-    public Jugador(String _nombre, int _fila, int _columnna) {
-        this.nombre = _nombre;
-        this.fila = _fila;
-        this.columna = _columnna;
+    public Jugador(String nombre, int fila, int columnna) {
+        this.nombre = nombre;
+        this.fila = fila;
+        this.columna = columnna;
         this.puntaje = 0;
         this.salud = 3;
         this.velocidad = 1;
@@ -74,23 +74,32 @@ public class Jugador {
     // 5. MÉTODOS
 
     public void mover(String direccion, Tablero tablero) {
+        int nuevaFila = this.fila;
+        int nuevaColumna = this.columna;
+
         switch (direccion.toUpperCase()) {
             case "W":
-                this.fila -= this.velocidad;
+                nuevaFila -= this.velocidad;
                 break;
             case "S":
-                this.fila += this.velocidad;
+                nuevaFila += this.velocidad;
                 break;
             case "A":
-                this.columna -= this.velocidad;
+                nuevaColumna -= this.velocidad;
                 break;
             case "D":
-                this.columna += this.velocidad;
+                nuevaColumna += this.velocidad;
                 break;
             default:
                 System.out.println("Tecla incorrecta. Usa W, A, S o D.");
                 break;
         }
+
+        if (tablero.esMovimientoValido(nuevaFila, nuevaColumna)) {
+            this.fila = nuevaFila;
+            this.columna = nuevaColumna;
+        }
+
     }
 
     public void recogerPunto() {
