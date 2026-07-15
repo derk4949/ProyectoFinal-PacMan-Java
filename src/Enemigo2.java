@@ -8,6 +8,8 @@ public class Enemigo2 {
     private boolean activo;
     private Random random;
 
+
+
     public Enemigo2(int fila, int columna) {
         this.tipo    = "Aleatorio";
         this.fila    = fila;
@@ -17,12 +19,13 @@ public class Enemigo2 {
         this.random  = new Random();
     }
 
+
     public int getFila() {
-        return fila;
+        return this.fila;
     }
 
     public int getColumna() {
-        return columna;
+        return this.columna;
     }
 
     public String getTipo() {
@@ -41,12 +44,13 @@ public class Enemigo2 {
         this.activo = activo;
     }
 
+
     public void mover(Jugador jugador, Tablero tablero) {
         if (!activo) return;
 
         int direccion = random.nextInt(4);
-        int nuevaFila    = fila;
-        int nuevaColumna = columna;
+        int nuevaFila    = this.fila;
+        int nuevaColumna = this.columna;
 
         if (direccion == 0) {
             nuevaFila--;    // Arriba
@@ -60,20 +64,21 @@ public class Enemigo2 {
         else nuevaColumna++;
 
         if (tablero.esMovimientoValido(nuevaFila, nuevaColumna)) {
-            fila    = nuevaFila;
-            columna = nuevaColumna;
+            tablero.limpiarPosicion(this.fila, this.columna);
+            this.fila = nuevaFila;
+            this.columna = nuevaColumna;
         }
     }
 
     public void atacar(Jugador jugador){
         System.out.println("El enemigo te choco!");
-        jugador.recibirDanio(danio);
+        jugador.recibirDanio(); //dano
     }
 
-    public boolean verificarColision(Jugador jugador) {
+   // public boolean verificarColision(Jugador jugador) {
 
-        return fila == jugador.getFila() && columna == jugador.getColumna();
-    }
+  //      return fila == jugador.getFila() && columna == jugador.getColumna();
+   // }
 
     public void mostrarEstado(){
         System.out.println("Enemigo 2 [" + tipo + "] en posición: " + fila + "," + columna);
