@@ -54,13 +54,12 @@ public class Juego {
             this.tablero.generarTablero();
 
 
-
             int []posicionLibre = this.tablero.obtenerPosicionLibreAleatoria();
-
             int filaFantasma = posicionLibre[0];
             int colFantasma = posicionLibre[1];
             this.aleatorio = new Enemigo2(filaFantasma,colFantasma);
             this.tablero.colocarEnemigos2(aleatorio);
+
 
             this.jugador = new Jugador("leonardo",2,2);
             this.tablero.colocarJugador(jugador);
@@ -71,7 +70,6 @@ public class Juego {
                 ejecutarTurno();
                 actualizarTablero();
                 mostrarEstado();
-                ejecutarTurno();
                 verificarFinJuego();
             }
         } else {
@@ -83,17 +81,18 @@ public class Juego {
 
     }
     public void actualizarTablero() {
-        this.tablero.mostrarTablero();
         this.tablero.colocarJugador(this.jugador);
         this.tablero.colocarEnemigos2(this.aleatorio);
+        this.tablero.mostrarTablero();
     }
 
     public void ejecutarTurno() {
         System.out.println("apreta para mover");
         String direccion = scanner.nextLine();
-        this.aleatorio.mover(this.jugador, this.tablero);
+
         this.jugador.mover(direccion, this.tablero);
 
+        this.aleatorio.mover(this.jugador, this.tablero);
 
     }
     public void verificarFinJuego() {

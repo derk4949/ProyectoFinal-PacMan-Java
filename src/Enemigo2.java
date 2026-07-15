@@ -49,8 +49,8 @@ public class Enemigo2 {
         if (!activo) return;
 
         int direccion = random.nextInt(4);
-        int nuevaFila    = fila;
-        int nuevaColumna = columna;
+        int nuevaFila    = this.fila;
+        int nuevaColumna = this.columna;
 
         if (direccion == 0) {
             nuevaFila--;    // Arriba
@@ -64,8 +64,8 @@ public class Enemigo2 {
         else nuevaColumna++;
 
         if (tablero.esMovimientoValido(nuevaFila, nuevaColumna)) {
-            fila    = nuevaFila;
-            columna = nuevaColumna;
+            this.fila = nuevaFila;
+            this.columna = nuevaColumna;
         }
     }
 
