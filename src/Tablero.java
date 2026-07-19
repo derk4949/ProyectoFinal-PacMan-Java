@@ -322,6 +322,79 @@ public class Tablero {
 
         return cantidadAlcanzada == cantidadCaminos;
     }
+    // GENERACIÓN DE MUROS (respetando la conectividad del tablero)
+
+    // 1. Los muros ya no pueden encerrar al jugador: cada muro se coloca "de prueba" y solo se conserva si, tras colocarlo, el tablero sigue
+    //totalmente conectado. Si lo desconecta, se revierte y se prueba con otra posicion.
+    // 2. Siempre se reservan al menos 2 celdas libres (jugador + 1 vecina), así que aunque se pida una cantidad enorme de muros (ej. 99 en un 10x10),
+    //el algoritmo se detiene justo antes de dejar al jugador sin espacio, colocando la mayor cantidad posible sin romper esa regla.
+    public int agregarMuros(int cantidadDeseada) {
+
+        if (cantidadDeseada < 0) {
+            cantidadDeseada = 0;
+        }
+
+        // Deben quedar espacios para: la salida de la base, todos los poderes, el jugador y al menos un punto.
+        int minimoCeldasTransitables = poderes.length + 3;
+        int maximoPosible = contarCeldasTransitables() - minimoCeldasTransitables;
+
+        if (maximoPosible < 0) {
+            maximoPosible = 0;
+        }
+
+        if (cantidadDeseada > maximoPosible) {
+            System.out.println("La cantidad de muros se redujo de " + cantidadDeseada + " a " + maximoPosible + " para reservar espacio para jugador, poderes y puntos.");
+            cantidadDeseada = maximoPosible;
+        }
+
+        this.muros = new Muro[cantidadDeseada];
+        this.cantidadMurosColocados = 0;
+
+        int intentosFallidosSeguidos = 0;
+        int maximoFallosSeguidos = filas * columnas * 4;
+
+        while (cantidadMurosColocados < cantidadDeseada && intentosFallidosSeguidos < maximoFallosSeguidos) {
+
+            if (contarCeldasTransitables() <= minimoCeldasTransitables) {
+                break;
+            }
+
+            int[] posicion = obtenerPosicionLibreAleatoria();
+
+            if (posicion[0] == -1 || posicion[1] == -1) {
+                break;
+            }
+
+            int filaMuro = posicion[0];
+            int columnaMuro = posicion[1];
+
+            matriz[filaMuro][columnaMuro] = MURO;
+
+            if (tableroSigueConectado()) {
+                muros[cantidadMurosColocados] = new Muro(filaMuro, columnaMuro);
+                cantidadMurosColocados++;
+                intentosFallidosSeguidos = 0;
+            } else {
+                matriz[filaMuro][columnaMuro] = VACIO;
+                intentosFallidosSeguidos++;
+            }
+        }
+
+        if (cantidadMurosColocados < cantidadDeseada) {
+            System.out.println("Se colocaron " + cantidadMurosColocados + " de " + cantidadDeseada + " muros solicitados: no habia mas espacio posible sin dejar al jugador encerrado.");
+        }
+
+        return cantidadMurosColocados;
+    }
+
+    // Sobrecarga sin parametros (como pide el PDF): usa una cantidad sugerida
+    public void agregarMuros() {
+        agregarMuros(calcularCantidadMurosSugerida());
+    }
+
+    public int getCantidadMurosColocados() {
+        return cantidadMurosColocados;
+    }
 
     // CONSULTA DIRECTA DE UNA CELDA
     // Permite a otras clases (por ejemplo Juego, Enemigo o Jugador) consultar qué hay en una celda sin depender de mostrarTablero().
