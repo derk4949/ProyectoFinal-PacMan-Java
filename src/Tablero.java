@@ -86,6 +86,98 @@ public class Tablero {
         this.aleatorio = new Random();
     }
 
+    // GENERACION DEL TABLERO
+
+    // Version sin parametros: usada cuando el usuario elige "muros aleatorios" en el menu. Calculamos una cantidad razonable de muros (25% del interior).
+    public void generarTablero() {
+        generarTablero(calcularCantidadMurosSugerida());
+    }
+
+    private int calcularCantidadMurosSugerida() {
+        int interior = (filas - 2) * (columnas - 2);
+        int cantidadSugerida = interior / 4;
+        if (cantidadSugerida < 1) {
+            cantidadSugerida = 1;
+        }
+        return cantidadSugerida;
+    }
+
+    // Version con parametro: usada cuando el usuario digita la cantidad de muros por teclado (modo manual del menu).
+    public void generarTablero(int cantidadMurosDeseada) {
+
+        // Bordes y espacio interior
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                if (i == 0 || i == filas - 1 || j == 0 || j == columnas - 1) {
+                    matriz[i][j] = MURO;
+                } else {
+                    matriz[i][j] = VACIO;
+                }
+            }
+        }
+
+        // 1. Base central de los enemigos (bloque 3x3 con un solo B)
+        crearBaseEnemigos();
+
+        // 2. Muros internos, cuidando que el tablero siga siendo recorrible
+        agregarMuros(cantidadMurosDeseada);
+
+        // 3. Poderes especiales
+        agregarPoderes();
+
+        // 4. Reservamos una casilla vacía para el jugador ANTES de llenar los caminos con puntos
+        reservarPosicionInicialJugador();
+
+        // 5. Puntos: llenan todo el espacio libre restante
+        agregarPuntos();
+    }
+
+    // VALIDACION DEL MOVIMIENTO DEL JUGADOR
+
+    public boolean esMovimientoValido(int fila, int columna) {
+
+        if (!estaDentroDelTablero(fila, columna)) {
+            return false;
+        }
+
+        if (matriz[fila][columna] == MURO) {
+            return false;
+        }
+
+        if (matriz[fila][columna] == BASE) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // VALIDACION DEL MOVIMIENTO DE LOS ENEMIGOS
+
+    public boolean esMovimientoValidoEnemigo(int fila, int columna) {
+
+        if (!estaDentroDelTablero(fila, columna)) {
+            return false;
+        }
+
+        if (matriz[fila][columna] == MURO) {
+            return false;
+        }
+
+        // Los enemigos si pueden caminar sobre la letra B, porque representa su base
+        return true;
+    }
+
+    // VALIDACION DEL MOVIMIENTO DEL FANTASMA
+    // Solo valida que la posicion sea interior (fila y columna dentro de los bordes exteriores).
+    // No revisa el contenido de la matriz, asi el Fantasma puede entrar en muros interiores, muros de la base, puntos o poderes sin eliminarlos. No mueve al enemigo ni cambia la matriz: solo responde si la posicion es valida.
+    public boolean esMovimientoValidoFantasma(int fila, int columna) {
+
+        if (fila >= 1 && fila <= filas - 2 && columna >= 1 && columna <= columnas - 2) {
+            return true;
+        }
+        return false;
+    }
+
     // Indica si una celda es "transitable" para el jugador: ni muro ni base.
     // La usamos para validar movimientos y para el chequeo de conectividad.
     private boolean esCeldaTransitablePorJugador(int fila, int columna) {
@@ -95,7 +187,7 @@ public class Tablero {
         return matriz[fila][columna] != MURO && matriz[fila][columna] != BASE;
     }
 
-    // POSICIÓN DE LA BASE (donde nacen todos los enemigos)
+    // POSICION DE LA BASE (donde nacen todos los enemigos)
 
     public int[] obtenerPosicionBase() {
         if (!baseCreada) {
