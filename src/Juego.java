@@ -37,11 +37,16 @@ public class Juego {
 
 
 
-        System.out.println("   PAC-MAN                ");
-        System.out.println("   1. Jugar               ");
-        System.out.println("   2. Salir               ");
-        System.out.println("--------------------------");
-        System.out.print("Elige una opcion: ");
+        System.out.println();
+        System.out.println("------------------------");
+        System.out.println("       PAC-MAN"          );
+        System.out.println("------------------------");
+        System.out.println("1. Iniciar juego");
+        System.out.println("2. Ver instrucciones");
+        System.out.println("3. Salir");
+
+
+
 
         String entrada = scanner.nextLine().trim();
 
@@ -85,6 +90,43 @@ public class Juego {
         }
     }
 
+    public void configurarNuevaPartida() {
+
+    }
+
+    private void mostrarInstrucciones() {
+        System.out.println();
+        System.out.println("CONTROLES");
+        System.out.println("W = arriba");
+        System.out.println("S = abajo");
+        System.out.println("A = izquierda");
+        System.out.println("D = derecha ");
+        System.out.println("Q = abandonar la partida ");
+
+        System.out.println();
+        System.out.println("OBJETIVO");
+        System.out.println("- Recoger todos los puntos");
+        System.out.println("- Evitar a los enemigos.");
+        System.out.println("-  El jugador comienza con 3 vidas");
+        System.out.println("- Cada colision quita exactamente una vida");
+        System.out.println("- Se gana al recoger todos los puntos");
+        System.out.println("- Se pierde al quedarse sin vidas");
+
+        System.out.println();
+        System.out.println("PODERES");
+        System.out.println("- Velocidad: permite dos movimientos por turno temporalmente");
+        System.out.println("- Congelacion: evita que los enemigos se muevan temporalmente");
+        System.out.println("- Vida extra: recupera una vida sin superar el maximo de 3");
+    }
+
+
+    public void programaActivo() {
+
+    }
+
+
+
+
     public void mostrarEstado() {
 
     }
@@ -106,6 +148,9 @@ public class Juego {
     public void verificarFinJuego() {
 
     }
+
+
+
 
 
 class pruebajuego {
