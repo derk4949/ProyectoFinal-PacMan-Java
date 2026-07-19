@@ -68,6 +68,7 @@ public class Jugador {
         return true;
     }
 
+
     public void teletransportar(int nuevaFila, int nuevaColumna) {
         filaAnterior = fila;
         columnaAnterior = columna;
