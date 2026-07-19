@@ -396,6 +396,149 @@ public class Tablero {
         return cantidadMurosColocados;
     }
 
+    // GENERACION DE PUNTOS: llenan TODO el espacio libre que quede (despues de muros, base y poderes), como en el tablero clasico de Pac-Man.
+    public void agregarPuntos() {
+
+        int cantidadCeldasLibres = 0;
+        for (int i = 1; i < filas - 1; i++) {
+            for (int j = 1; j < columnas - 1; j++) {
+                if (matriz[i][j] == VACIO && !esZonaSalidaBase(i, j) && !(i == filaInicialJugador && j == columnaInicialJugador)) {
+                    cantidadCeldasLibres++;
+                }
+            }
+        }
+
+        this.puntos = new Punto[cantidadCeldasLibres];
+        int indice = 0;
+
+        for (int i = 1; i < filas - 1; i++) {
+            for (int j = 1; j < columnas - 1; j++) {
+                if (matriz[i][j] == VACIO && !esZonaSalidaBase(i, j) && !(i == filaInicialJugador && j == columnaInicialJugador)) {
+                    puntos[indice] = new Punto(i, j, 10);
+                    matriz[i][j] = PUNTO;
+                    indice++;
+                }
+            }
+        }
+    }
+
+    // POSICION INICIAL DEL JUGADOR
+
+    private void reservarPosicionInicialJugador() {
+
+        int[] posicionJugador = obtenerPosicionLibreAleatoria();
+
+        this.filaInicialJugador = posicionJugador[0];
+        this.columnaInicialJugador = posicionJugador[1];
+
+        if (filaInicialJugador == -1 || columnaInicialJugador == -1) {
+            System.out.println("No hay una posición disponible para el jugador.");
+        }
+    }
+
+    public int[] obtenerPosicionInicialJugador() {
+
+        // Si generarTablero() ya reservo la posicion, devolvemos esa misma.
+        if (filaInicialJugador != -1 && columnaInicialJugador != -1) {
+            return new int[]{filaInicialJugador, columnaInicialJugador};
+        }
+
+        reservarPosicionInicialJugador();
+        return new int[]{filaInicialJugador, columnaInicialJugador};
+    }
+
+    // BUSQUEDA Y ELIMINACION DE PUNTOS
+
+    public Punto buscarPunto(int fila, int columna) {
+
+        for (int i = 0; i < puntos.length; i++) {
+            if (puntos[i] != null) {
+                if (puntos[i].getFila() == fila && puntos[i].getColumna() == columna) {
+                    if (!puntos[i].fueRecolectado()) {
+                        return puntos[i];
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public void eliminarPuntoDelTablero(int fila, int columna) {
+
+        if (!estaDentroDelTablero(fila, columna)) {
+            return;
+        }
+
+        if (matriz[fila][columna] == PUNTO) {
+            matriz[fila][columna] = VACIO;
+        }
+    }
+
+    public int contarPuntosRestantes() {
+
+        int cantidadRestante = 0;
+
+        for (int i = 0; i < puntos.length; i++) {
+            if (puntos[i] != null) {
+                if (!puntos[i].fueRecolectado()) {
+                    cantidadRestante++;
+                }
+            }
+        }
+        return cantidadRestante;
+    }
+    // GENERACIÓN DE PODERES: coloca uno de cada tipo (Poder1, Poder2, Poder3) en rotación, hasta completar la cantidad indicada en el constructor.
+    public void agregarPoderes() {
+
+        for (int i = 0; i < poderes.length; i++) {
+
+            int[] posicion = obtenerPosicionLibreAleatoria();
+            if (posicion[0] == -1 || posicion[1] == -1) {
+                System.out.println("No hay espacio para colocar mas poderes.");
+                break;
+            }
+
+            int filaPoder = posicion[0];
+            int columnaPoder = posicion[1];
+            int tipoDePoder = i % 3;
+            if (tipoDePoder == 0) {
+                poderes[i] = new Poder1(filaPoder, columnaPoder);
+            } else if (tipoDePoder == 1) {
+                poderes[i] = new Poder2(filaPoder, columnaPoder);
+            } else {
+                poderes[i] = new Poder3(filaPoder, columnaPoder);
+            }
+            matriz[filaPoder][columnaPoder] = PODER;
+        }
+    }
+
+    // BUSQUEDA Y ELIMINACION DE PODERES
+
+    public Poder buscarPoder(int fila, int columna) {
+
+        for (int i = 0; i < poderes.length; i++) {
+            if (poderes[i] != null) {
+                if (poderes[i].getFila() == fila && poderes[i].getColumna() == columna) {
+                    if (!poderes[i].fueRecogido()) {
+                        return poderes[i];
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public void eliminarPoderDelTablero(int fila, int columna) {
+
+        if (!estaDentroDelTablero(fila, columna)) {
+            return;
+        }
+
+        if (matriz[fila][columna] == PODER) {
+            matriz[fila][columna] = VACIO;
+        }
+    }
+
     // CONSULTA DIRECTA DE UNA CELDA
     // Permite a otras clases (por ejemplo Juego, Enemigo o Jugador) consultar qué hay en una celda sin depender de mostrarTablero().
     // Fuera del tablero devuelve MURO, tratando el "exterior" como no transitable (comportamiento seguro para quien solo quiera preguntar "¿puedo pasar por aquí?").
