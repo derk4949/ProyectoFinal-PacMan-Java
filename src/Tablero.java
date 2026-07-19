@@ -162,14 +162,88 @@ public class Tablero {
         return fila == frente[0] && columna == frente[1];
     }
 
+    // VALIDACIÓN DE POSICIONES LIBRES
+
+    public boolean estaPosicionLibre(int fila, int columna) {
+
+        if (!esPosicionInterior(fila, columna)) {
+            return false;
+        }
+
+        if (esZonaSalidaBase(fila, columna)) {
+            return false;
+        }
+
+        return matriz[fila][columna] == VACIO;
+    }
+
+    public boolean esPosicionInterior(int fila, int columna) {
+        if (fila > 0 && fila < filas - 1 && columna > 0 && columna < columnas - 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean estaDentroDelTablero(int fila, int columna) {
+        if (fila >= 0 && fila < filas && columna >= 0 && columna < columnas) {
+            return true;
+        }
+        return false;
+    }
+
+    // BÚSQUEDA DE UNA POSICIÓN LIBRE ALEATORIA
+
+    public int[] obtenerPosicionLibreAleatoria() {
+
+        int filaAleatoria;
+        int columnaAleatoria;
+
+        int intentos = 0;
+        int maximoIntentos = filas * columnas;
+
+        if (filas <= 2 || columnas <= 2) {
+            return new int[]{-1, -1};
+        }
+
+        while (intentos < maximoIntentos) {
+
+            filaAleatoria = aleatorio.nextInt(filas - 2) + 1;
+            columnaAleatoria = aleatorio.nextInt(columnas - 2) + 1;
+
+            if (estaPosicionLibre(filaAleatoria, columnaAleatoria)) {
+                return new int[]{filaAleatoria, columnaAleatoria};
+            }
+
+            intentos++;
+        }
+
+        // Si la búsqueda aleatoria tuvo mala suerte, revisamos toda la matriz antes de afirmar que no queda espacio.
+        for (int i = 1; i < filas - 1; i++) {
+            for (int j = 1; j < columnas - 1; j++) {
+                if (estaPosicionLibre(i, j)) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+
+        return new int[]{-1, -1};
+    }
+
+    // CONSULTA DIRECTA DE UNA CELDA
+    // Permite a otras clases (por ejemplo Juego, Enemigo o Jugador) consultar qué hay en una celda sin depender de mostrarTablero().
+    // Fuera del tablero devuelve MURO, tratando el "exterior" como no transitable (comportamiento seguro para quien solo quiera preguntar "¿puedo pasar por aquí?").
+    public char obtenerCelda(int fila, int columna) {
+        if (!estaDentroDelTablero(fila, columna)) {
+            return MURO;
+        }
+        return matriz[fila][columna];
+    }
+
     // BASE CENTRAL DE LOS ENEMIGOS: un bloque de 3x3 con un unico 'B' en el centro exacto del tablero. Las 8 celdas que rodean a la B son muros, menos una: la celda de abajo, que queda abierta como única entrada/salida.
     public void crearBaseEnemigos() {
 
-        // Con menos de TAMANO_MINIMO_PARA_BASE la celda de entrada quedaría
-        // pegada al borde exterior y se aislaría del resto del tablero, así
-        // que exigimos un mínimo que deje al menos una celda libre debajo de
-        // la entrada. El constructor ya garantiza este mínimo, pero se deja
-        // esta validación como respaldo.
+        // Con menos de TAMANO_MINIMO_PARA_BASE la celda de entrada quedaria pegada al borde exterior y se aislaría del resto del tablero, así que exigimos un minimo que deje al menos una celda libre debajo de la entrada.
+        // El constructor ya garantiza este minimo, pero se deja esta validacion como respaldo.
         if (filas < TAMANO_MINIMO_PARA_BASE || columnas < TAMANO_MINIMO_PARA_BASE) {
             System.out.println("El tablero es muy pequeño " + "para crear la base de enemigos.");
             return;
@@ -208,6 +282,16 @@ public class Tablero {
         }
         return false;
     }
+
+    // GETTERS DE DIMENSIONES (los usa, por ejemplo, el fantasma para teletransportarse en los bordes)
+    public int getFilas() {
+        return filas;
+    }
+
+    public int getColumnas() {
+        return columnas;
+    }
 }
+
 
 
