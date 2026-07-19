@@ -2,7 +2,6 @@ import java.util.Random;
 
 public class Tablero {
 
-    // ============================================================
     // CONSTANTES DE SÍMBOLOS DEL TABLERO
     // Se centralizan aquí en vez de repetir caracteres "mágicos"
     // ('#', 'B', '.', 'O', ' ') por todo el código. Si algún día se
@@ -14,9 +13,7 @@ public class Tablero {
     private static final char PODER = 'O';
     private static final char VACIO = ' ';
 
-    // Tamaño mínimo de tablero para poder crear la base 3x3 de enemigos
-    // dejando al menos una celda libre debajo de la entrada (ver
-    // crearBaseEnemigos()).
+    //Tamaño minimo del tablero necesario para la base 3x3 de enemigos, dejando libre la celda bajo su entrada.
     private static final int TAMANO_MINIMO_PARA_BASE = 7;
 
     // ATRIBUTOS DEL TABLERO
@@ -25,12 +22,7 @@ public class Tablero {
     private int filas;
     private int columnas;
 
-    // Matriz donde se guardan los elementos fijos del mapa:
-    // MURO  = muro
-    // BASE  = base de enemigos (una sola celda, en el centro del bloque 3x3)
-    // PUNTO = punto
-    // PODER = poder
-    // VACIO = espacio vacío
+    // Matriz donde se guardan los elementos fijos del mapa: MURO  = muro, BASE  = base de enemigos (una sola celda, en el centro del bloque 3x3) ,PUNTO = punto, PODER = poder, VACIO = espacio vacío
     private char[][] matriz;
 
     // Arreglo que guarda los objetos de tipo Muro
@@ -46,37 +38,27 @@ public class Tablero {
     // Referencia al jugador que será mostrado en el tablero
     private Jugador jugador;
 
-    // Posición que se reserva antes de llenar los caminos con puntos.
-    // Así el jugador nunca termina creado en (-1, -1).
+    // Posicion reservada antes de rellenar los caminos con puntos, para evitar que el jugador termine ubicado en (-1, -1).
     private int filaInicialJugador;
     private int columnaInicialJugador;
 
     // Referencia a los enemigos (Perseguidor, Aleatorio, Fantasma, o los que sean)
     private Enemigo[] enemigos;
 
-    // Indica si el tablero alcanzó a crear la base de enemigos. Antes,
-    // obtenerPosicionBase()/esPosicionBase() asumían que la base siempre
-    // existía, pero crearBaseEnemigos() se negaba a crearla en tableros
-    // menores a 7x7. Con esta bandera esos métodos ya no devuelven una
-    // posición de base que en realidad no está en el tablero.
+    // Indica si el tablero alcanzo a crear la base de enemigos. Antes, obtenerPosicionBase()/esPosicionBase() asumian que la base siempre existia, pero crearBaseEnemigos() se negaba a crearla en tableros menores a 7x7.
+
     private boolean baseCreada;
 
-    // Única instancia de Random para todo el tablero. Antes se creaba una
-    // nueva instancia en cada llamada a obtenerPosicionLibreAleatoria(),
-    // lo cual era innecesario.
+    // Unica instancia de Random para todo el tablero, antes se creaba una nueva instancia en cada llamada a obtenerPosicionLibreAleatoria(), lo cual era innecesario.
     private Random aleatorio;
 
     // CONSTRUCTOR
-    // Ya no recibe cantidad de muros ni de puntos: los muros se definen en
-    // generarTablero(cantidadMurosDeseada) según lo que elija el usuario en el
-    // menú, y los puntos ahora llenan automáticamente todo el espacio libre
-    // que quede (como en el Pac-Man original).
+    // Ya no recibe cantidad de muros ni de puntos: los muros se definen en generarTablero(cantidadMurosDeseada) segun lo que elija el usuario en el menu, y los puntos ahora llenan automáticamente todo el espacio libre que quede (como en el Pac-Man "original").
+
     public Tablero(int _filas, int _columnas, int _cantidadPoderes) {
 
         if (_filas < TAMANO_MINIMO_PARA_BASE || _columnas < TAMANO_MINIMO_PARA_BASE) {
-            System.out.println("El tamaño minimo del tablero es " + TAMANO_MINIMO_PARA_BASE
-                    + "x" + TAMANO_MINIMO_PARA_BASE + " para poder crear la base de enemigos. "
-                    + "Se ajusto el tamaño solicitado (" + _filas + "x" + _columnas + ").");
+            System.out.println("El tamaño minimo del tablero es " + TAMANO_MINIMO_PARA_BASE + "x" + TAMANO_MINIMO_PARA_BASE + " para poder crear la base de enemigos. " + "Se ajusto el tamaño solicitado (" + _filas + "x" + _columnas + ").");
         }
         if (_filas < TAMANO_MINIMO_PARA_BASE) {
             _filas = TAMANO_MINIMO_PARA_BASE;
@@ -103,4 +85,129 @@ public class Tablero {
         this.baseCreada = false;
         this.aleatorio = new Random();
     }
+
+    // POSICIÓN DE LA BASE (donde nacen todos los enemigos)
+
+    public int[] obtenerPosicionBase() {
+        if (!baseCreada) {
+            return new int[]{-1, -1};
+        }
+        return new int[]{filas / 2, columnas / 2};
+    }
+
+    public int[] obtenerPosicionSalidaBase() {
+        if (!baseCreada) {
+            return new int[]{-1, -1};
+        }
+        return new int[]{filas / 2 + 1, columnas / 2};
+    }
+
+    public boolean esPosicionBase(int fila, int columna) {
+        if (!baseCreada) {
+            return false;
+        }
+        return fila == filas / 2 && columna == columnas / 2;
+    }
+
+    // CORREDOR DE SALIDA DE LA BASE
+    // La casilla delante de la salida (fuera de la base). Junto con la salida inmediata, forma el corredor por el que los enemigos normales avanzan de a uno para no bloquearse entre ellos.
+    public int[] obtenerPosicionFrenteSalidaBase() {
+
+        if (!baseCreada) {
+            return new int[]{-1, -1};
+        }
+
+        int filaSalida = filas / 2 + 1;
+        int columnaSalida = columnas / 2;
+
+        int filaFrente = filaSalida + 1;
+        int columnaFrente = columnaSalida;
+
+        if (!esPosicionInterior(filaFrente, columnaFrente)) {
+            return new int[]{-1, -1};
+        }
+
+        return new int[]{filaFrente, columnaFrente};
+    }
+
+    // Compara la posicion recibida con la salida inmediata de la base.
+    public boolean esPosicionSalidaBase(int fila, int columna) {
+
+        int[] salida = obtenerPosicionSalidaBase();
+
+        if (salida[0] == -1 && salida[1] == -1) {
+            return false;
+        }
+
+        return fila == salida[0] && columna == salida[1];
+    }
+
+    // Zona del corredor completo: la salida inmediata MAS la casilla delante de la salida.
+    public boolean esZonaSalidaBase(int fila, int columna) {
+
+        if (!baseCreada) {
+            return false;
+        }
+
+        if (esPosicionSalidaBase(fila, columna)) {
+            return true;
+        }
+
+        int[] frente = obtenerPosicionFrenteSalidaBase();
+
+        if (frente[0] == -1 && frente[1] == -1) {
+            return false;
+        }
+
+        return fila == frente[0] && columna == frente[1];
+    }
+
+    // BASE CENTRAL DE LOS ENEMIGOS: un bloque de 3x3 con un unico 'B' en el centro exacto del tablero. Las 8 celdas que rodean a la B son muros, menos una: la celda de abajo, que queda abierta como única entrada/salida.
+    public void crearBaseEnemigos() {
+
+        // Con menos de TAMANO_MINIMO_PARA_BASE la celda de entrada quedaría
+        // pegada al borde exterior y se aislaría del resto del tablero, así
+        // que exigimos un mínimo que deje al menos una celda libre debajo de
+        // la entrada. El constructor ya garantiza este mínimo, pero se deja
+        // esta validación como respaldo.
+        if (filas < TAMANO_MINIMO_PARA_BASE || columnas < TAMANO_MINIMO_PARA_BASE) {
+            System.out.println("El tablero es muy pequeño " + "para crear la base de enemigos.");
+            return;
+        }
+
+        int filaCentro = filas / 2;
+        int columnaCentro = columnas / 2;
+
+        for (int i = filaCentro - 1; i <= filaCentro + 1; i++) {
+            for (int j = columnaCentro - 1; j <= columnaCentro + 1; j++) {
+                matriz[i][j] = MURO;
+            }
+        }
+
+        // El centro exacto del bloque 3x3: ahí nacen los enemigos
+        matriz[filaCentro][columnaCentro] = BASE;
+
+        // Única entrada/salida de la base: la celda justo debajo del centro
+        matriz[filaCentro + 1][columnaCentro] = VACIO;
+
+        baseCreada = true;
+    }
+
+    // SALIDA DE LA BASE
+    public boolean esSalidaBase(int fila, int columna) {
+
+        if (!baseCreada) {
+            return false;
+        }
+
+        int filaCentro = filas / 2;
+        int columnaCentro = columnas / 2;
+
+        if (fila == filaCentro + 1 && columna == columnaCentro) {
+            return true;
+        }
+        return false;
+    }
+}
+
 
