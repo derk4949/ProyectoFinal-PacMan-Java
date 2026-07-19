@@ -3,18 +3,19 @@ import java.util.Scanner;
 public class Juego {
     private Jugador jugador;
     private Tablero tablero;
+    private Enemigo[] enemigos;
     private boolean juegoTerminado;
+    private ControlEnemigos controlEnemigos;
     private Scanner scanner;
-    private int turno;
-    private Enemigo2 aleatorio;
-
 
     public Juego() {
-        this.juegoTerminado = false;
-        this.scanner = new Scanner(System.in);
-        this.turno = 0;
+        scanner = new Scanner(System.in);
+        jugador = null;
+        tablero = null;
+        enemigos = new Enemigo[0];
+        controlEnemigos = null;
+        juegoTerminado = false;
     }
-
 
     public Jugador getJugador() {
         return jugador;
@@ -32,13 +33,22 @@ public class Juego {
         return turno;
     }
 
-
     public void iniciarJuego() {
-        mostrarMenu();
+
+
+
+        System.out.println("   PAC-MAN                ");
+        System.out.println("   1. Jugar               ");
+        System.out.println("   2. Salir               ");
+        System.out.println("--------------------------");
+        System.out.print("Elige una opcion: ");
+
         String entrada = scanner.nextLine().trim();
 
         if (entrada.equals("2")) {
             System.out.println("Hasta luego!");
+
+
 
         } else if (entrada.equals("1")) {
             System.out.println("Creando el mundo...");
@@ -97,15 +107,6 @@ public class Juego {
 
     }
 
-    private void mostrarMenu() {
-
-        System.out.println("   PAC-MAN                ");
-        System.out.println("   1. Jugar               ");
-        System.out.println("   2. Salir               ");
-        System.out.println("--------------------------");
-        System.out.print("Elige una opcion: ");
-    }
-}
 
 class pruebajuego {
     public static void main(String[] args) {
