@@ -44,7 +44,7 @@ public class Jugador {
 
     // MOVIMIENTO
     // Calcula la nueva posicion segun la direccion, y solo la aplica si
-    // Tablero confirma que esa posicion es valida.
+    // Tablero confirma que esa posicion es valida
     public boolean mover(String direccion, Tablero tablero) {
 
         if (direccion == null || tablero == null) {
@@ -52,7 +52,7 @@ public class Jugador {
         }
 
         // Empezamos suponiendo que la posicion no cambia; si la direccion
-        // es valida, ajustamos fila o columna mas abajo.
+        // es valida, ajustamos fila o columna mas abajo
         int nuevaFila = fila;
         int nuevaColumna = columna;
 
@@ -81,7 +81,7 @@ public class Jugador {
         }
 
         // El movimiento es valido: guardamos de donde salio el jugador
-        // y luego actualizamos su posicion actual.
+        // y luego actualizamos su posicion actual
         filaAnterior = fila;
         columnaAnterior = columna;
         fila = nuevaFila;
@@ -92,7 +92,7 @@ public class Jugador {
 
     // PUNTOS
     // Suma el valor del punto al puntaje, siempre que el punto exista
-    // y no haya sido recolectado antes.
+    // y no haya sido recolectado antes
     public void recogerPunto(Punto punto) {
 
         if (punto == null) {
@@ -136,7 +136,7 @@ public class Jugador {
     }
 
     // PODERES
-    // Activa el efecto de un poder que el jugador recogio del tablero.
+    // Activa el efecto de un poder que el jugador recogio del tablero
     public void usarPoder(Poder poder) {
 
         if (poder == null) {
@@ -151,9 +151,9 @@ public class Jugador {
         poder.marcarComoRecogido();
     }
 
-    // Guarda el poder temporal que queda activo en el jugador (por ejemplo,
-    // la velocidad aumentada). Si ya habia un poder activo, primero se
-    // desactiva correctamente para no dejar efectos mezclados.
+    // Guarda el poder temporal que queda activo en el jugador
+    // Si ya habia un poder activo, primero se
+    // desactiva correctamente para no dejar efectos mezclados
     public void activarPoder(String tipo, int turnos) {
 
         if (tipo == null || turnos <= 0) {
@@ -170,7 +170,7 @@ public class Jugador {
     }
 
     // Se llama una vez por turno. Va restando turnos al poder activo hasta
-    // que se acaba, momento en el que se desactiva automaticamente.
+    // que se acaba, momento en el que se desactiva automaticamente
     public void actualizarContadorPoder() {
 
         if (!poderActivo) {
@@ -184,8 +184,8 @@ public class Jugador {
         }
     }
 
-    // Quita el efecto del poder activo. Si el poder era "Velocidad",
-    // regresa la velocidad a su valor normal (1).
+    // Quita el efecto del poder activo. Si el poder era "Velocidad"
+    // regresa la velocidad a su valor normal "1"
     private void desactivarPoderActual() {
 
         if (tipoPoderActivo.equals("Velocidad")) {
@@ -268,7 +268,7 @@ public class Jugador {
     }
 
     // SETTER
-    // La velocidad nunca puede ser 0 o negativa; en ese caso se guarda 1.
+    // La velocidad nunca puede ser 0 o negativa; en ese caso se guarda 1
     public void setVelocidad(int velocidad) {
         if (velocidad <= 0) {
             velocidad = 1;
