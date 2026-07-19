@@ -17,25 +17,7 @@ public class Juego {
         juegoTerminado = false;
     }
 
-    public Jugador getJugador() {
-        return jugador;
-    }
 
-    public Tablero getTablero() {
-        return tablero;
-    }
-
-    public Enemigo[] getEnemigos() {
-        return enemigos;
-    }
-
-    public boolean estaTerminado() {
-        return juegoTerminado;
-    }
-
-    public int getTurno() {
-        return turno;
-    }
 
     public void iniciarJuego() {
 
@@ -142,15 +124,16 @@ public class Juego {
         this.tablero.mostrarTablero();
     }
 
-    public void ejecutarTurno() {
-        System.out.println("apreta para mover");
-        String direccion = scanner.nextLine();
+    public boolean ejecutarTurno(String direccion) {
 
-        this.jugador.mover(direccion, this.tablero);
+        if (juegoTerminado
+                || jugador == null
+                || tablero == null
+                || controlEnemigos == null
+                || direccion == null) {
+            return false;
+        }
 
-        this.aleatorio.mover(this.jugador, this.tablero);
-
-    }
     public void verificarFinJuego() {
 
     }
@@ -163,10 +146,31 @@ class pruebajuego {
     public static void main(String[] args) {
         Tablero miTablero = new Tablero(10, 10, 5, 0, 0);
         miTablero.generarTablero();
-        Enemigo2 aleatorio = new Enemigo2(3,5);
+        Enemigo2 aleatorio = new Enemigo2(3, 5);
         miTablero.colocarEnemigos2(aleatorio);
         miTablero.mostrarTablero();
 
         aleatorio.mostrarEstado();
     }
+
+    public Jugador getJugador() {
+        return jugador;
+    }
+
+    public Tablero getTablero() {
+        return tablero;
+    }
+
+    public Enemigo[] getEnemigos() {
+        return enemigos;
+    }
+
+    public boolean estaTerminado() {
+        return juegoTerminado;
+    }
+
+    public int getTurno() {
+        return turno;
+    }
+
 }
