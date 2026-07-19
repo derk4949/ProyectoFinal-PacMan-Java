@@ -5,7 +5,6 @@ public class Enemigo {
     private int columna;
     private int filaAnterior;
     private int columnaAnterior;
-
     // estado
     private int danio;
     private boolean activo;
@@ -28,9 +27,19 @@ public class Enemigo {
         this.activo = true;
     }
 
+    //aqui se jalara de las clases hijas el comportamiendo de cada enemigo
+    public void mover(Tablero tablero, Jugador jugador) {
+        System.out.println("El enemigo debe definir su movimiento");
+    }
+
+    //protegida para que solo las clases hijas puedaan usarlo
+    protected boolean intentarMover(int nuevaFila, int nuevaColumna, Tablero tablero) {
+
+        if (tablero == null || !activo) {
+            return false;
+        }
 
 
-
+    }
 }
-
 
