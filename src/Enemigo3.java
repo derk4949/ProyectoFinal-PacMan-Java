@@ -97,4 +97,7 @@ public class Enemigo3 extends Enemigo {
             }
         }// Si ninguna de las 4 direcciones fue valida, el Fantasma permanece en su posicion actual durante este turno.
     }
+
+
+
 }

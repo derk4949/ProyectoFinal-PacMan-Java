@@ -1,6 +1,10 @@
 import java.util.Random;
 
 public class Tablero {
+    // Atributos basicos de la clase
+    private int filas;
+    private int columnas;
+    private char[][] matriz;
 
     // CONSTANTES DE SÍMBOLOS DEL TABLERO
     // Se centralizan aquí en vez de repetir caracteres "mágicos"
@@ -561,6 +565,7 @@ public class Tablero {
             return;
         }
 
+  
         if (matriz[fila][columna] == PUNTO) {
             matriz[fila][columna] = VACIO;
         }
