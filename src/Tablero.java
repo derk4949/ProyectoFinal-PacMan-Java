@@ -1,114 +1,106 @@
 import java.util.Random;
+
 public class Tablero {
-    // Atributos basicos de la clase
+
+    // ============================================================
+    // CONSTANTES DE SÍMBOLOS DEL TABLERO
+    // Se centralizan aquí en vez de repetir caracteres "mágicos"
+    // ('#', 'B', '.', 'O', ' ') por todo el código. Si algún día se
+    // quiere cambiar un símbolo, solo se cambia en un lugar.
+    // ============================================================
+    private static final char MURO = '#';
+    private static final char BASE = 'B';
+    private static final char PUNTO = '.';
+    private static final char PODER = 'O';
+    private static final char VACIO = ' ';
+
+    // Tamaño mínimo de tablero para poder crear la base 3x3 de enemigos
+    // dejando al menos una celda libre debajo de la entrada (ver
+    // crearBaseEnemigos()).
+    private static final int TAMANO_MINIMO_PARA_BASE = 7;
+
+    // ATRIBUTOS DEL TABLERO
+
+    // Cantidad de filas y columnas que tendrá el tablero
     private int filas;
     private int columnas;
+
+    // Matriz donde se guardan los elementos fijos del mapa:
+    // MURO  = muro
+    // BASE  = base de enemigos (una sola celda, en el centro del bloque 3x3)
+    // PUNTO = punto
+    // PODER = poder
+    // VACIO = espacio vacío
     private char[][] matriz;
 
-    //Atributos de los objetos
+    // Arreglo que guarda los objetos de tipo Muro
     private Muro[] muros;
+    private int cantidadMurosColocados;
+
+    // Arreglo que guarda los objetos de tipo Punto (se llena TODO el tablero)
     private Punto[] puntos;
+
+    // Arreglo que guarda los objetos de tipo Poder (mezcla Poder1/2/3)
     private Poder[] poderes;
 
-    //Constructor
-    public Tablero (int _filas, int _columnas, int _cantMuros, int _cantPuntos, int _cantPoderes) {
+    // Referencia al jugador que será mostrado en el tablero
+    private Jugador jugador;
+
+    // Posición que se reserva antes de llenar los caminos con puntos.
+    // Así el jugador nunca termina creado en (-1, -1).
+    private int filaInicialJugador;
+    private int columnaInicialJugador;
+
+    // Referencia a los enemigos (Perseguidor, Aleatorio, Fantasma, o los que sean)
+    private Enemigo[] enemigos;
+
+    // Indica si el tablero alcanzó a crear la base de enemigos. Antes,
+    // obtenerPosicionBase()/esPosicionBase() asumían que la base siempre
+    // existía, pero crearBaseEnemigos() se negaba a crearla en tableros
+    // menores a 7x7. Con esta bandera esos métodos ya no devuelven una
+    // posición de base que en realidad no está en el tablero.
+    private boolean baseCreada;
+
+    // Única instancia de Random para todo el tablero. Antes se creaba una
+    // nueva instancia en cada llamada a obtenerPosicionLibreAleatoria(),
+    // lo cual era innecesario.
+    private Random aleatorio;
+
+    // CONSTRUCTOR
+    // Ya no recibe cantidad de muros ni de puntos: los muros se definen en
+    // generarTablero(cantidadMurosDeseada) según lo que elija el usuario en el
+    // menú, y los puntos ahora llenan automáticamente todo el espacio libre
+    // que quede (como en el Pac-Man original).
+    public Tablero(int _filas, int _columnas, int _cantidadPoderes) {
+
+        if (_filas < TAMANO_MINIMO_PARA_BASE || _columnas < TAMANO_MINIMO_PARA_BASE) {
+            System.out.println("El tamaño minimo del tablero es " + TAMANO_MINIMO_PARA_BASE
+                    + "x" + TAMANO_MINIMO_PARA_BASE + " para poder crear la base de enemigos. "
+                    + "Se ajusto el tamaño solicitado (" + _filas + "x" + _columnas + ").");
+        }
+        if (_filas < TAMANO_MINIMO_PARA_BASE) {
+            _filas = TAMANO_MINIMO_PARA_BASE;
+        }
+        if (_columnas < TAMANO_MINIMO_PARA_BASE) {
+            _columnas = TAMANO_MINIMO_PARA_BASE;
+        }
+
         this.filas = _filas;
         this.columnas = _columnas;
-        this.matriz = new char[filas][columnas];
-        this.muros = new Muro[_cantMuros];
-        this.poderes = new Poder[_cantPoderes];
-        this.puntos = new Punto[_cantPuntos];
-    }
 
-    //Metodos
-    public void generarTablero () { // Genera el tablero vacío y coloca los bordes
-        for (int i=0 ; i<matriz.length ; i++){//filas
-            for (int j = 0; j<matriz[i].length ; j++){//columnas
-                if (i==0 || i==filas-1 || j==0 || j==columnas-1){//i pregunta si esta en a fila y j en la columna
-                    matriz[i][j] = '#';
-                }else{
-                    matriz[i][j] = ' ';
-                }
-            }
+        if (_cantidadPoderes < 0) {
+            _cantidadPoderes = 0;
         }
-        //Aqui llamamos al metodo que genera los muros
-        agregarMurosAleatorios();
-    }
 
-    public void agregarMurosAleatorios() { //Generará los muros en posiciones aleatorias
-        for (int i=0; i< muros.length ; i++){
-            int[] posicion = obtenerPosicionLibreAleatoria();
-            int filaMuro = posicion[0];
-            int columnaMuro = posicion[1];
-            muros[i]= new Muro(filaMuro, columnaMuro);
-            matriz[filaMuro][columnaMuro] = '#';
-        }
-    }
+        this.matriz = new char[_filas][_columnas];
 
-    public boolean estaDentroDelTablero(int fila, int columna) { //Verifica que una posición exista dentro de la matriz
-        if (fila >= 0 && fila < filas && columna >= 0 && columna< columnas){
-            return true;
-        }
-        return false;
+        this.muros = new Muro[0];
+        this.cantidadMurosColocados = 0;
+        this.puntos = new Punto[0];
+        this.poderes = new Poder[_cantidadPoderes];
+        this.filaInicialJugador = -1;
+        this.columnaInicialJugador = -1;
+        this.baseCreada = false;
+        this.aleatorio = new Random();
     }
-
-    public boolean esPosicionInterior(int fila, int columna) { //Verifica que una posición no pertenezca a los bordes
-        if (fila > 0 && fila < filas - 1 && columna > 0 && columna < columnas - 1){
-            return true;
-        }
-        return false;
-    }
-
-    public boolean estaPosicionLibre(int fila, int columna) { //Verifica que una posición no tenga otro elemento
-        if (esPosicionInterior(fila,columna) && matriz[fila][columna] == ' ' ){
-            return true;
-        }
-        return false;
-    }
-
-    public boolean esMovimientoValido(int fila, int columna) { //Verifica si el jugador o enemigo puede desplazarse
-        if (estaDentroDelTablero(fila,columna) && matriz[fila][columna] !='#'){
-            return true;
-        }
-        return false;
-    }
-
-    public int[] obtenerPosicionLibreAleatoria() {//Devuelve una posición aleatoria que se encuentre libre
-        Random aleatorio = new Random();
-        int filaAleatoria;
-        int columnaAleatoria;
-        do {
-            //Genera una posición
-            filaAleatoria = aleatorio.nextInt(filas -2) +1;
-            columnaAleatoria = aleatorio.nextInt(columnas -2) +1;
-
-        }while (!estaPosicionLibre(filaAleatoria, columnaAleatoria));
-
-        return new int[]{filaAleatoria, columnaAleatoria};
-    }
-
-    public void mostrarTablero () { //Imprime lo que encuentra en cada casilla de la matriz
-        for (int i=0 ; i<matriz.length ; i++){
-            for (int j = 0; j<matriz[i].length ; j++){
-                System.out.print(matriz[i][j] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
-    // Pendientes hasta recibir las otras clases
-    public void agregarPuntos() {
-        // Pendiente: se completará cuando la clase Punto esté terminada
-    }
-    public void agregarPoderes() {
-        // Pendiente: se completará cuando la clase Poder esté terminada
-    }
-    public void colocarJugador() {
-        // Pendiente: se completará cuando la clase Jugador esté terminada
-    }
-    public void colocarEnemigos() {
-        // Pendiente: se completará cuando la clase Enemigos esté terminada
-    }
-}
 
