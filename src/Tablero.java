@@ -10,6 +10,8 @@ public class Tablero {
     private Punto[] puntos;
     private Poder1[] poderes;
 
+    private boolean baseCreada;
+
     //Constructor
     public Tablero (int _filas, int _columnas, int _cantMuros, int _cantPuntos, int _cantPoderes) {
         this.filas = _filas;
@@ -88,6 +90,27 @@ public class Tablero {
         }while (!estaPosicionLibre(filaAleatoria, columnaAleatoria));
 
         return new int[]{filaAleatoria, columnaAleatoria};
+    }
+
+    public int[] obtenerPosicionBase() {
+        if (!baseCreada) {
+            return new int[]{-1, -1};
+        }
+        return new int[]{filas / 2, columnas / 2};
+    }
+
+    public int[] obtenerPosicionSalidaBase() {
+        if (!baseCreada) {
+            return new int[]{-1, -1};
+        }
+        return new int[]{filas / 2 + 1, columnas / 2};
+    }
+
+    public boolean esPosicionBase(int fila, int columna) {
+        if (!baseCreada) {
+            return false;
+        }
+        return fila == filas / 2 && columna == columnas / 2;
     }
 
     public void mostrarTablero () { //Muestra la matriz en consola
