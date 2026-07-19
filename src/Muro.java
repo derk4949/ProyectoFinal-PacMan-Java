@@ -1,17 +1,27 @@
 public class Muro {
 
-    //Atributos
+    // Posicion del muro dentro del tablero
     private int fila;
     private int columna;
 
-    //Constructor
-    public Muro(int _fila, int _columna) {
-        this.fila = _fila;
-        this.columna = _columna;
+    // Constructor --- debe coincidir exactamente con el usado en Tablero.java
+    public Muro(int fila, int columna) {
+        this.fila = fila;
+        this.columna = columna;
     }
 
-    //Metodos
-    public int[] obtenerPosicion(){ //Duvuelve la ubicación del muro
+    // Getter de la fila
+    public int getFila() {
+        return fila;
+    }
+
+    // Getter de la columna
+    public int getColumna() {
+        return columna;
+    }
+
+    // Devuelve la posicion del muro como un arreglo [fila, columna]
+    public int[] obtenerPosicion() {
         return new int[]{fila, columna};
     }
 }
