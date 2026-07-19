@@ -86,6 +86,15 @@ public class Tablero {
         this.aleatorio = new Random();
     }
 
+    // Indica si una celda es "transitable" para el jugador: ni muro ni base.
+    // La usamos para validar movimientos y para el chequeo de conectividad.
+    private boolean esCeldaTransitablePorJugador(int fila, int columna) {
+        if (!estaDentroDelTablero(fila, columna)) {
+            return false;
+        }
+        return matriz[fila][columna] != MURO && matriz[fila][columna] != BASE;
+    }
+
     // POSICIÓN DE LA BASE (donde nacen todos los enemigos)
 
     public int[] obtenerPosicionBase() {
@@ -162,7 +171,7 @@ public class Tablero {
         return fila == frente[0] && columna == frente[1];
     }
 
-    // VALIDACIÓN DE POSICIONES LIBRES
+    // VALIDACION DE POSICIONES LIBRES
 
     public boolean estaPosicionLibre(int fila, int columna) {
 
@@ -191,7 +200,7 @@ public class Tablero {
         return false;
     }
 
-    // BÚSQUEDA DE UNA POSICIÓN LIBRE ALEATORIA
+    // BUSQUEDA DE UNA POSICION LIBRE ALEATORIA
 
     public int[] obtenerPosicionLibreAleatoria() {
 
@@ -227,6 +236,91 @@ public class Tablero {
         }
 
         return new int[]{-1, -1};
+    }
+
+    // Cuenta cuántas celdas interiores son transitables ahora mismo (no son muro ni base). Sirve para saber cuánto espacio libre queda.
+    private int contarCeldasTransitables() {
+        int total = 0;
+        for (int i = 1; i < filas - 1; i++) {
+            for (int j = 1; j < columnas - 1; j++) {
+                if (esCeldaTransitablePorJugador(i, j)) {
+                    total++;
+                }
+            }
+        }
+        return total;
+    }
+
+    // VERIFICA QUE TODO EL CAMINO SIGA CONECTADO
+
+    // Este método evita que un muro encierre puntos, poderes o al jugador.
+    // No usa pilas, colas, recursividad ni colecciones. Solamente utiliza una matriz boolean, bucles, condicionales y contadores.
+    // La idea es sencilla:
+    // 1. Se marca una primera casilla transitable.
+    // 2. Las casillas vecinas a una casilla marcada tambien se marcan.
+    // 3. Se repite hasta que ya no aparezcan nuevas casillas alcanzables.
+    // 4. Si se alcanzaron todas las casillas transitables, el tablero sigue conectado y el muro puede conservarse.
+    private boolean tableroSigueConectado() {
+
+        int filaInicial = -1;
+        int columnaInicial = -1;
+        int cantidadCaminos = 0;
+
+        // Buscar una primera casilla transitable y contar todas las casillas por donde puede caminar el jugador.
+        for (int i = 1; i < filas - 1; i++) {
+            for (int j = 1; j < columnas - 1; j++) {
+
+                if (esCeldaTransitablePorJugador(i, j)) {
+                    cantidadCaminos++;
+
+                    if (filaInicial == -1) {
+                        filaInicial = i;
+                        columnaInicial = j;
+                    }
+                }
+            }
+        }
+
+        // Si no hay caminos, no existe una zona separada que revisar.
+        if (cantidadCaminos == 0) {
+            return true;
+        }
+
+        // Esta matriz guarda qué posiciones pueden alcanzarse desde la primera casilla encontrada.
+        boolean[][] alcanzable = new boolean[filas][columnas];
+        alcanzable[filaInicial][columnaInicial] = true;
+
+        int cantidadAlcanzada = 1;
+        boolean huboCambio = true;
+
+        // Mientras se siga encontrando una nueva casilla alcanzable, volvemos a recorrer la matriz.
+        while (huboCambio) {
+
+            huboCambio = false;
+
+            for (int i = 1; i < filas - 1; i++) {
+                for (int j = 1; j < columnas - 1; j++) {
+
+                    if (esCeldaTransitablePorJugador(i, j)
+                            && !alcanzable[i][j]) {
+
+                        boolean tieneVecinoAlcanzable
+                                = alcanzable[i - 1][j]
+                                || alcanzable[i + 1][j]
+                                || alcanzable[i][j - 1]
+                                || alcanzable[i][j + 1];
+
+                        if (tieneVecinoAlcanzable) {
+                            alcanzable[i][j] = true;
+                            cantidadAlcanzada++;
+                            huboCambio = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return cantidadAlcanzada == cantidadCaminos;
     }
 
     // CONSULTA DIRECTA DE UNA CELDA
