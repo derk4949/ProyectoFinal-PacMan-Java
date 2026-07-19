@@ -68,7 +68,6 @@ public class Jugador {
         return true;
     }
 
-
     public void teletransportar(int nuevaFila, int nuevaColumna) {
         filaAnterior = fila;
         columnaAnterior = columna;
@@ -82,4 +81,51 @@ public class Jugador {
     public int getColumna() { return columna; }
     public int getFilaAnterior() { return filaAnterior; }
     public int getColumnaAnterior() { return columnaAnterior; }
+    
+    // PUNTOS
+    // Suma el valor del punto al puntaje, siempre que el punto exista
+    // y no haya sido recolectado antes.
+    public void recogerPunto(Punto punto) {
+        if (punto == null) {
+            return;
+        }
+        if (punto.fueRecolectado()) {
+            return;
+        }
+        puntaje = puntaje + punto.obtenerValor();
+        punto.marcarComoRecolectado();
+    }
+
+    // VIDAS
+    // Quita una vida, sin dejar que el contador baje de 0.
+    public void perderVida() {
+        vidas = vidas - 1;
+        if (vidas < 0) {
+            vidas = 0;
+        }
+        System.out.println(nombre + " perdio una vida. Vidas restantes: " + vidas);
+    }
+
+    // Recupera una vida, sin dejar que supere el maximo de 3.
+    public void recuperarVida() {
+        if (vidas >= 3) {
+            System.out.println(nombre + " ya tiene el maximo de vidas.");
+            return;
+        }
+        vidas = vidas + 1;
+        System.out.println(nombre + " recupero una vida. Vidas actuales: " + vidas);
+    }
+
+    public boolean estaVivo() {
+        return vidas > 0;
+    }
+
+    // GETTERS DE VIDAS Y PUNTAJE
+    public int getVidas() {
+        return vidas;
+    }
+
+    public int getPuntaje() {
+        return puntaje;
+    }
 }
