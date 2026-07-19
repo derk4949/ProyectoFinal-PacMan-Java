@@ -275,4 +275,5 @@ public class Jugador {
         }
         this.velocidad = velocidad;
     }
+
 }
