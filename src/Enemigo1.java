@@ -20,7 +20,6 @@ public class Enemigo1 extends Enemigo {
             return;
         }
 
-        // --- NUEVO: Lógica de persecución principal ---
         int diferenciaFila = jugador.getFila() - getFila();
         int diferenciaColumna = jugador.getColumna() - getColumna();
 
@@ -46,19 +45,55 @@ public class Enemigo1 extends Enemigo {
 
         // Primero intenta el eje con mayor distancia
         if (Math.abs(diferenciaFila) >= Math.abs(diferenciaColumna)) {
-            if (pasoFila != 0 && intentarMover(getFila() + pasoFila, getColumna(), tablero)) {
+
+            if (pasoFila != 0
+                    && intentarMover(
+                    getFila() + pasoFila,
+                    getColumna(),
+                    tablero)) {
                 return;
             }
-            if (pasoColumna != 0 && intentarMover(getFila(), getColumna() + pasoColumna, tablero)) {
+
+            if (pasoColumna != 0
+                    && intentarMover(
+                    getFila(),
+                    getColumna() + pasoColumna,
+                    tablero)) {
                 return;
             }
+
         } else {
-            if (pasoColumna != 0 && intentarMover(getFila(), getColumna() + pasoColumna, tablero)) {
+
+            if (pasoColumna != 0
+                    && intentarMover(
+                    getFila(),
+                    getColumna() + pasoColumna,
+                    tablero)) {
                 return;
             }
-            if (pasoFila != 0 && intentarMover(getFila() + pasoFila, getColumna(), tablero)) {
+
+            if (pasoFila != 0
+                    && intentarMover(
+                    getFila() + pasoFila,
+                    getColumna(),
+                    tablero)) {
                 return;
             }
         }
+
+        // Busca otra casilla cuando el camino directo esta bloqueado
+        if (intentarMover(getFila() - 1, getColumna(), tablero)) {
+            return;
+        }
+
+        if (intentarMover(getFila() + 1, getColumna(), tablero)) {
+            return;
+        }
+
+        if (intentarMover(getFila(), getColumna() - 1, tablero)) {
+            return;
+        }
+
+        intentarMover(getFila(), getColumna() + 1, tablero);
     }
 }
