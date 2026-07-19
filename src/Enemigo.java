@@ -9,6 +9,7 @@ public class Enemigo {
     private int danio;
     private boolean activo;
 
+
     public Enemigo(String tipo, int fila, int columna) {
 
         if (tipo == null || tipo.trim().isEmpty()) {
@@ -78,6 +79,7 @@ public class Enemigo {
             return intentarMover(frente[0], frente[1], tablero);
         }
 
+
         // no esta en ninguno
         return false;
     }
@@ -107,7 +109,6 @@ public class Enemigo {
 
     // ATAQUE
     // Si hay colision con el jugador, le quita exactamente una vida.
-    // El mensaje de las vidas restantes ya lo muestra perderVida().
     public void atacar(Jugador jugador) {
 
         if (verificarColision(jugador)) {
@@ -149,7 +150,6 @@ public class Enemigo {
     }
 
     // GETTERS
-
     public String getTipo() {
         return tipo;
     }
@@ -177,13 +177,5 @@ public class Enemigo {
     public boolean estaActivo() {
         return activo;
     }
-}
-
-
-
-
-
-
-
 }
 
