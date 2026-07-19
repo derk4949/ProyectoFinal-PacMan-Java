@@ -641,6 +641,102 @@ public class Tablero {
         return matriz[fila][columna];
     }
 
+    // REFERENCIAS DE LOS PERSONAJES
+
+    public void colocarJugador(Jugador jugador) {
+        this.jugador = jugador;
+    }
+
+    public void colocarEnemigos(Enemigo[] enemigos) {
+        this.enemigos = enemigos;
+    }
+
+    // Este metodo permanece temporalmente para evitar errores en las clases antiguas que todavía lo llaman.
+    // No borra nada porque los personajes ya no están almacenados directamente en la matriz.
+    public void limpiarPosicion(int fila, int columna) {
+    }
+
+    // Letra con la que se dibuja cada tipo de enemigo en el tablero
+    private char obtenerLetraEnemigo(Enemigo enemigo) {
+        String tipo = enemigo.getTipo();
+        if (tipo.equals("Perseguidor")) {
+            return 'P';
+        }
+        if (tipo.equals("Aleatorio")) {
+            return 'A';
+        }
+        if (tipo.equals("Fantasma")) {
+            return 'F';
+        }
+        return 'E';
+    }
+
+    // COLISION VISUAL (para dibujar una X cuando el jugador y un enemigo comparten celda)
+    public boolean hayColisionVisual(int fila, int columna) {
+
+        if (jugador == null) {
+            return false;
+        }
+
+        if (jugador.getFila() != fila || jugador.getColumna() != columna) {
+            return false;
+        }
+
+        if (enemigos == null) {
+            return false;
+        }
+
+        for (int i = 0; i < enemigos.length; i++) {
+            Enemigo enemigo = enemigos[i];
+            if (enemigo != null && enemigo.estaActivo() && enemigo.getFila() == fila && enemigo.getColumna() == columna) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // MOSTRAR EL TABLERO
+    // Se dibuja todo sobre una copia visual temporal de la matriz, para que la matriz original (muros, puntos, poderes) nunca se modifique al mostrar al jugador o a los enemigos, incluido el Fantasma sobre una casilla de muro.
+    public void mostrarTablero() {
+
+        char[][] copiaVisual = new char[filas][columnas];
+
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                copiaVisual[i][j] = matriz[i][j];
+            }
+        }
+
+        // Los enemigos se dibujan primero. El Fantasma se dibuja aunque la matriz original tenga un muro en esa casilla, porque aqui no se revisa el contenido de matriz, solo se sobrescribe la copia visual.
+        if (enemigos != null) {
+            for (int k = 0; k < enemigos.length; k++) {
+                Enemigo enemigo = enemigos[k];
+                if (enemigo != null && enemigo.estaActivo()) {
+                    copiaVisual[enemigo.getFila()][enemigo.getColumna()] = obtenerLetraEnemigo(enemigo);
+                }
+            }
+        }
+
+        // El jugador y la colision se dibujan al final porque tienen prioridad visual sobre cualquier enemigo.
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                if (hayColisionVisual(i, j)) {
+                    copiaVisual[i][j] = 'X';
+                } else if (jugador != null && jugador.getFila() == i && jugador.getColumna() == j) {
+                    copiaVisual[i][j] = 'J';
+                }
+            }
+        }
+
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                System.out.print(copiaVisual[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
     // BASE CENTRAL DE LOS ENEMIGOS: un bloque de 3x3 con un unico 'B' en el centro exacto del tablero. Las 8 celdas que rodean a la B son muros, menos una: la celda de abajo, que queda abierta como única entrada/salida.
     public void crearBaseEnemigos() {
 
