@@ -133,6 +133,9 @@ public class Tablero {
 }
 
 
+
+
+
 class PruebaTablero{
     public static void main(String[]args){
         Tablero tabla = new Tablero(10,10,6,4,5);
