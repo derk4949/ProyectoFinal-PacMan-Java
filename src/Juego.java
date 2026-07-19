@@ -149,7 +149,6 @@ class pruebajuego {
         Enemigo2 aleatorio = new Enemigo2(3, 5);
         miTablero.colocarEnemigos2(aleatorio);
         miTablero.mostrarTablero();
-
         aleatorio.mostrarEstado();
     }
 
