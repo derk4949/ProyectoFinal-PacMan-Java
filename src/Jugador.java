@@ -6,6 +6,8 @@ public class Jugador {
     private String nombre;
     private int fila;
     private int columna;
+    private int filaAnterior;
+    private int columnaAnterior;
     private int puntaje;
     private int salud;
     private int velocidad;
@@ -35,6 +37,14 @@ public class Jugador {
 
     public int getColumna() {
         return this.columna;
+    }
+
+    public int getFilaAnterior() {
+        return filaAnterior;
+    }
+
+    public int getColumnaAnterior() {
+        return columnaAnterior;
     }
 
     public int getPuntaje() {

@@ -78,7 +78,11 @@ public class Tablero {
         return false;
     }
 
-    public int[] obtenerPosicionLibreAleatoria() {//Devuelve una posición aleatoria que se encuentre libre
+    public boolean esPosicionSalidaBase(int fila, int columna) {
+
+    }
+
+        public int[] obtenerPosicionLibreAleatoria() {//Devuelve una posición aleatoria que se encuentre libre
         Random aleatorio = new Random();
         int filaAleatoria;
         int columnaAleatoria;
