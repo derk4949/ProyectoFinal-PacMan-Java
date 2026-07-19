@@ -25,7 +25,11 @@ public class Juego {
         return tablero;
     }
 
-    public boolean isJuegoTerminado() {
+    public Enemigo[] getEnemigos() {
+        return enemigos;
+    }
+
+    public boolean estaTerminado() {
         return juegoTerminado;
     }
 
@@ -124,7 +128,9 @@ public class Juego {
 
     }
 
+    public void generarEnemigos() {
 
+        }
 
 
     public void mostrarEstado() {
