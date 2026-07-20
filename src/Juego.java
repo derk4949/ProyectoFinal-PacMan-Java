@@ -360,6 +360,69 @@ public class Juego {
     }
 
 //mueve al jugador de acuerdo a su velocidad y procesa lo que encuentre en el camino y verifica colisiones
+public boolean ejecutarTurno(String direccion) {
+    if (juegoTerminado
+            || jugador == null
+            || tablero == null
+            || controlEnemigos == null
+            || direccion == null) {
+        return false;
+    }
+    int movimientosPermitidos = jugador.getVelocidad();
+
+    boolean huboMovimiento = false;
+    boolean poderTemporalNuevo = false;
+
+    for (int i = 0; i < movimientosPermitidos; i++) {
+
+        boolean movimientoValido = jugador.mover(direccion, tablero);
+
+        if (!movimientoValido) {
+
+            if (!huboMovimiento) {
+                System.out.println("Movimiento invalido");
+                return false;
+            } else {
+                break;
+            }
+        }
+        huboMovimiento = true;
+
+        if (procesarCasillaJugador()) {
+            poderTemporalNuevo = true;
+        }
+
+        if (hayEnemigoEnPosicionJugador()) {
+
+            controlEnemigos.verificarColisiones(tablero);
+
+            if (!poderTemporalNuevo) {
+                jugador.actualizarContadorPoder();
+            }
+
+            controlEnemigos.eliminarEnemigosInactivos();
+            verificarFinJuego();
+            return true;
+        }
+        if (verificarFinJuego()) {
+            return true;
+        }
+    }
+    if (huboMovimiento && !juegoTerminado) {
+
+        controlEnemigos.moverEnemigos(tablero);
+        controlEnemigos.verificarColisiones(tablero);
+        controlEnemigos.eliminarEnemigosInactivos();
+
+        if (!poderTemporalNuevo) {
+            jugador.actualizarContadorPoder();
+        }
+
+        verificarFinJuego();
+    }
+
+    return true;
+}
 
 
     public void verificarFinJuego() {
