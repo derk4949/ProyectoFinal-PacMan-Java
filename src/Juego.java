@@ -438,6 +438,14 @@ public boolean ejecutarTurno(String direccion) {
             System.out.println("Puntaje final: " + jugador.getPuntaje());
             return true;
         }
+        if (tablero.contarPuntosRestantes() == 0) {
+            juegoTerminado = true;
+            System.out.println("Felicidades, " + jugador.getNombre() + ". Has ganado el juegoo");
+            System.out.println("Puntaje final: " + jugador.getPuntaje());
+            return true;
+        }
+
+        return false;
     }
 
 
