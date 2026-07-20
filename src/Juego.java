@@ -466,9 +466,9 @@ public boolean ejecutarTurno(String direccion) {
 
 
     public void actualizarTablero() {
-        this.tablero.colocarJugador(this.jugador);
-        this.tablero.colocarEnemigos2(this.aleatorio);
-        this.tablero.mostrarTablero();
+        if (tablero != null) {
+            tablero.mostrarTablero();
+        }
     }
 
     // GETTERS
