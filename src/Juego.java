@@ -420,13 +420,24 @@ public boolean ejecutarTurno(String direccion) {
 
         verificarFinJuego();
     }
-
     return true;
 }
-
-
+//verificar si tiene vidas y despues victoria osea comiendo todos los puntos
     public void verificarFinJuego() {
+        if (juegoTerminado) {
+            return true;
+        }
 
+        if (jugador == null || tablero == null) {
+            return false;
+        }
+
+        if (!jugador.estaVivo()) {
+            juegoTerminado = true;
+            System.out.println("Juego terminado, " + jugador.getNombre() + " ha perdido");
+            System.out.println("Puntaje final: " + jugador.getPuntaje());
+            return true;
+        }
     }
 
 
