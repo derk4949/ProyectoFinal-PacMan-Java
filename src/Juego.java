@@ -464,7 +464,7 @@ public boolean ejecutarTurno(String direccion) {
         System.out.println("Puntos restantes: " + tablero.contarPuntosRestantes());
     }
 
-
+//solo nuestra el tablero
     public void actualizarTablero() {
         if (tablero != null) {
             tablero.mostrarTablero();
