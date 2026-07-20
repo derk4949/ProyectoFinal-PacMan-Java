@@ -76,9 +76,53 @@ public class Juego {
         }
     }
 
-    public void configurarNuevaPartida() {
+// pedir entero si osi
+    private int leerEntero(String mensaje) {
 
+        while (true) {
+
+            System.out.print(mensaje);
+            String entrada = scanner.nextLine().trim();
+
+            try {
+                return Integer.parseInt(entrada);
+            } catch (NumberFormatException e) {
+                System.out.println("Ingrese un numero entero valido.");
+            }
+        }
     }
+
+    //para validar numero y asegurar que sea el minimo
+    private int leerEnteroMinimo(String mensaje, int minimo) {
+
+        while (true) {
+
+            int valor = leerEntero(mensaje);
+
+            if (valor < minimo) {
+                System.out.println("El valor minimo permitido es " + minimo);
+            } else {
+                return valor;
+            }
+        }
+    }
+
+    private int leerCantidadMuros() {
+
+        while (true) {
+
+            int cantidad = leerEntero("Cantidad de muros (-1 para automatico): ");
+
+            if (cantidad < -1) {
+                System.out.println("Ingrese -1 para automatico o un numero mayor o igual a 0");
+            } else {
+                return cantidad;
+            }
+        }
+    }
+
+
+
 
     private void mostrarInstrucciones() {
         System.out.println();
@@ -103,6 +147,10 @@ public class Juego {
         System.out.println("- Velocidad: permite dos movimientos por turno temporalmente");
         System.out.println("- Congelacion: evita que los enemigos se muevan temporalmente");
         System.out.println("- Vida extra: recupera una vida sin superar el maximo de 3");
+    }
+
+    public void configurarNuevaPartida() {
+
     }
 
 
