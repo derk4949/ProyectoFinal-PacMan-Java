@@ -448,11 +448,23 @@ public boolean ejecutarTurno(String direccion) {
         return false;
     }
 
-
+//refresca tabkeri en pantaklla y muestra el estado del jugador junto con los puntos que faltan  recoger
     public void mostrarEstado() {
 
+        if (tablero == null || jugador == null) {
+            return;
+        }
 
+        actualizarTablero();
+
+        System.out.println();
+
+        jugador.mostrarEstado();
+
+        System.out.println("Puntos restantes: " + tablero.contarPuntosRestantes());
     }
+
+
     public void actualizarTablero() {
         this.tablero.colocarJugador(this.jugador);
         this.tablero.colocarEnemigos2(this.aleatorio);
