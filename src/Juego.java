@@ -121,9 +121,6 @@ public class Juego {
         }
     }
 
-
-
-
     private void mostrarInstrucciones() {
         System.out.println();
         System.out.println("CONTROLES");
@@ -149,9 +146,143 @@ public class Juego {
         System.out.println("- Vida extra: recupera una vida sin superar el maximo de 3");
     }
 
-    public void configurarNuevaPartida() {
+    // pide datos para armar la partida y entra a ciclo de turnos si se creo correctamente
+    private void configurarNuevaPartida() {
+        System.out.print("Nombre del jugador: ");
+        String nombre = scanner.nextLine().trim();
 
+        int filas = leerEnteroMinimo("Cantidad de filas (minimo 7): ", 7);
+        int columnas = leerEnteroMinimo("Cantidad de columnas (minimo 7): ", 7);
+        int cantidadPoderes = leerEnteroMinimo("Cantidad de poderes (minimo 3): ", 3);
+        int cantidadMuros = leerCantidadMuros();
+        int cantidadEnemigos = leerEnteroMinimo("Cantidad de enemigos (minimo 3): ", 3);
+
+        boolean partidaCreada = prepararPartida(
+                nombre,
+                filas,
+                columnas,
+                cantidadPoderes,
+                cantidadMuros,
+                cantidadEnemigos
+        );
+
+        if (partidaCreada) {
+            ejecutarPartida();
+        }
     }
+
+    private boolean prepararPartida(
+            String nombreJugador,
+            int filas,
+            int columnas,
+            int cantidadPoderes,
+            int cantidadMuros,
+            int cantidadEnemigos
+    ) {
+
+        // se reinicia para poder inicciar una nueva partida
+        jugador = null;
+        tablero = null;
+        enemigos = new Enemigo[0];
+        controlEnemigos = null;
+        juegoTerminado = false;
+
+        // Validacion del nombre.
+        String nombreValidado;
+        if (nombreJugador == null || nombreJugador.trim().isEmpty()) {
+            nombreValidado = "Jugador";
+        } else {
+            nombreValidado = nombreJugador.trim();
+        }
+
+        // Validaciones numericas se conservan como proteccion interna,
+        if (filas < 7) {
+            filas = 7;
+        }
+
+        if (columnas < 7) {
+            columnas = 7;
+        }
+
+        if (cantidadPoderes < 3) {
+            cantidadPoderes = 3;
+        }
+
+        if (cantidadEnemigos < 3) {
+            cantidadEnemigos = 3;
+        }
+
+        if (cantidadMuros < -1) {
+            cantidadMuros = -1;
+        }
+
+        // Creacion del tablero.
+        tablero = new Tablero(filas, columnas, cantidadPoderes);
+
+        if (cantidadMuros == -1) {
+            tablero.generarTablero();
+        } else {
+            tablero.generarTablero(cantidadMuros);
+        }
+
+        // Creacion del jugador.
+        int[] posicionJugador = tablero.obtenerPosicionInicialJugador();
+
+        if (posicionJugador[0] == -1 || posicionJugador[1] == -1) {
+            System.out.println("No fue posible crear al jugador en el tablero");
+            juegoTerminado = true;
+            return false;
+        }
+        jugador = new Jugador(nombreValidado, posicionJugador[0], posicionJugador[1]);
+        tablero.colocarJugador(jugador);
+
+        // Enemigos.
+        generarEnemigos(cantidadEnemigos);
+
+        controlEnemigos = new ControlEnemigos(enemigos, jugador);
+        tablero.colocarEnemigos(enemigos);
+
+        juegoTerminado = false;
+        System.out.println("El juego ha comenzado buena suerte " + jugador.getNombre());
+        return true;
+    }
+
+//pide una direccion por turno y se la pasa a ejecutarturno hasta que el juego termine
+    private void ejecutarPartida() {
+
+        boolean abandonarPartida = false;
+
+        while (!juegoTerminado && !abandonarPartida) {
+
+            System.out.println();
+            mostrarEstado();
+
+            System.out.print("Movimiento (W/A/S/D) o Q para abandonar: ");
+            String direccion = scanner.nextLine().trim().toUpperCase();
+
+            if (direccion.equals("Q")) {
+                abandonarPartida = true;
+                System.out.println("Partida abandonada, reegresando al menu principal");
+
+            } else if (direccion.equals("W")
+                    || direccion.equals("A")
+                    || direccion.equals("S")
+                    || direccion.equals("D")) {
+
+                ejecutarTurno(direccion);
+
+            } else {
+                System.out.println("tecla no reconocido, Use W, A, S, D o Q");
+            }
+        }
+
+        if (juegoTerminado) {
+            System.out.println();
+            mostrarEstado();
+            System.out.println("Fin de la partida. Regresando al menu principal");
+        }
+    }
+
 
 
     public void programaActivo() {
