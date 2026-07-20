@@ -162,7 +162,8 @@ public class Juego {
             int cantidadEnemigos
     ) {
 
-        // se reinicia para poder inicciar una nueva partida
+        // El mismo objeto Juego puede iniciar varias partidas, asi que
+        // se reinicia todo antes de armar la nueva.
         jugador = null;
         tablero = null;
         enemigos = new Enemigo[0];
@@ -177,7 +178,8 @@ public class Juego {
             nombreValidado = nombreJugador.trim();
         }
 
-        // Validaciones numericas se conservan como proteccion interna,
+        // Validaciones numericas: se conservan como proteccion interna,
+        // aunque ya el teclado no deje pasar valores menores al minimo.
         if (filas < 7) {
             filas = 7;
         }
@@ -215,6 +217,7 @@ public class Juego {
             juegoTerminado = true;
             return false;
         }
+
         jugador = new Jugador(nombreValidado, posicionJugador[0], posicionJugador[1]);
         tablero.colocarJugador(jugador);
 
@@ -225,9 +228,12 @@ public class Juego {
         tablero.colocarEnemigos(enemigos);
 
         juegoTerminado = false;
+
         System.out.println("El juego ha comenzado buena suerte " + jugador.getNombre());
+
         return true;
     }
+
 
 //pide una direccion por turno y se la pasa a ejecutarturno hasta que el juego termine
     private void ejecutarPartida() {
@@ -405,30 +411,32 @@ public boolean ejecutarTurno(String direccion) {
     return true;
 }
 //verificar si tiene vidas y despues victoria osea comiendo todos los puntos
-    public void verificarFinJuego() {
-        if (juegoTerminado) {
-            return true;
-        }
+public boolean verificarFinJuego() {
 
-        if (jugador == null || tablero == null) {
-            return false;
-        }
+    if (juegoTerminado) {
+        return true;
+    }
 
-        if (!jugador.estaVivo()) {
-            juegoTerminado = true;
-            System.out.println("Juego terminado, " + jugador.getNombre() + " ha perdido");
-            System.out.println("Puntaje final: " + jugador.getPuntaje());
-            return true;
-        }
-        if (tablero.contarPuntosRestantes() == 0) {
-            juegoTerminado = true;
-            System.out.println("Felicidades, " + jugador.getNombre() + ". Has ganado el juegoo");
-            System.out.println("Puntaje final: " + jugador.getPuntaje());
-            return true;
-        }
-
+    if (jugador == null || tablero == null) {
         return false;
     }
+
+    if (!jugador.estaVivo()) {
+        juegoTerminado = true;
+        System.out.println("Juego terminado, " + jugador.getNombre() + " ha perdido");
+        System.out.println("Puntaje final: " + jugador.getPuntaje());
+        return true;
+    }
+
+    if (tablero.contarPuntosRestantes() == 0) {
+        juegoTerminado = true;
+        System.out.println("Felicidades, " + jugador.getNombre() + ". Has ganado el juegoo");
+        System.out.println("Puntaje final: " + jugador.getPuntaje());
+        return true;
+    }
+
+    return false;
+}
 
 //refresca tabkeri en pantaklla y muestra el estado del jugador junto con los puntos que faltan  recoger
     public void mostrarEstado() {

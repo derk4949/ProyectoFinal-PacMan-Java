@@ -1,87 +1,77 @@
 import java.util.Random;
 
-public class Enemigo2 {
-    private String tipo;
-    private int fila;
-    private int columna;
-    private int danio;
-    private boolean activo;
+// Enemigo que se mueve en una direccion aleatoria
+public class Enemigo2 extends Enemigo {
+
     private Random random;
 
-
-
     public Enemigo2(int fila, int columna) {
-        this.tipo    = "Aleatorio";
-        this.fila    = fila;
-        this.columna = columna;
-        this.danio   = 1;
-        this.activo  = true;
-        this.random  = new Random();
+        super("Aleatorio", fila, columna);
+        random = new Random();
     }
 
+    @Override
+    public void mover(Tablero tablero, Jugador jugador) {
 
-    public int getFila() {
-        return this.fila;
-    }
+        if (tablero == null || jugador == null || !estaActivo()) {
+            return;
+        }
 
-    public int getColumna() {
-        return this.columna;
-    }
+        // Evita conservar la posicion anterior de otro turno
+        reiniciarPosicion(getFila(), getColumna());
 
-    public String getTipo() {
-        return tipo;
-    }
+        // Si ya coincide con el jugador, permanece en la casilla
+        // para que posteriormente se detecte la colision
+        if (getFila() == jugador.getFila()
+                && getColumna() == jugador.getColumna()) {
+            return;
+        }
 
-    public int getDanio() {
-        return danio;
-    }
+        // Salir de la base cuenta como el movimiento del turno
+        if (intentarSalirDeBase(tablero)) {
+            return;
+        }
 
-    public boolean isActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
-    }
-
-
-    public void mover(Jugador jugador, Tablero tablero) {
-        if (!activo) return;
-
+        // 0 arriba, 1 abajo, 2 izquierda, 3 derecha
         int direccion = random.nextInt(4);
-        int nuevaFila    = this.fila;
-        int nuevaColumna = this.columna;
 
-        if (direccion == 0) {
-            nuevaFila--;    // Arriba
+        for (int intento = 0; intento < 4; intento++) {
+
+            int nuevaFila = getFila();
+            int nuevaColumna = getColumna();
+
+            switch (direccion) {
+
+                case 0:
+                    nuevaFila = getFila() - 1;
+                    break;
+
+                case 1:
+                    nuevaFila = getFila() + 1;
+                    break;
+
+                case 2:
+                    nuevaColumna = getColumna() - 1;
+                    break;
+
+                case 3:
+                    nuevaColumna = getColumna() + 1;
+                    break;
+            }
+
+            if (intentarMover(nuevaFila, nuevaColumna, tablero)) {
+                return;
+            }
+
+            // Prueba la siguiente direccion
+            direccion++;
+
+            if (direccion == 4) {
+                direccion = 0;
+            }
         }
-        else if (direccion == 1) {
-            nuevaFila++;    // Abajo
-        }
-        else if (direccion == 2) {
-            nuevaColumna--; // Izquierda
-        }
-        else nuevaColumna++;
 
-        if (tablero.esMovimientoValido(nuevaFila, nuevaColumna)) {
-            tablero.limpiarPosicion(this.fila, this.columna);
-            this.fila = nuevaFila;
-            this.columna = nuevaColumna;
-        }
-    }
-
-    public void atacar(Jugador jugador){
-        System.out.println("El enemigo te choco!");
-        jugador.recibirDanio(); //dano
-    }
-
-   // public boolean verificarColision(Jugador jugador) {
-
-  //      return fila == jugador.getFila() && columna == jugador.getColumna();
-   // }
-
-    public void mostrarEstado(){
-        System.out.println("Enemigo 2 [" + tipo + "] en posición: " + fila + "," + columna);
-
+        // Si las cuatro direcciones estan bloqueadas,
+        // permanece en su posicion
     }
 }
