@@ -451,6 +451,7 @@ public boolean ejecutarTurno(String direccion) {
 
     public void mostrarEstado() {
 
+
     }
     public void actualizarTablero() {
         this.tablero.colocarJugador(this.jugador);
@@ -458,7 +459,22 @@ public boolean ejecutarTurno(String direccion) {
         this.tablero.mostrarTablero();
     }
 
+    // GETTERS
+    public Jugador getJugador() {
+        return jugador;
+    }
 
+    public Tablero getTablero() {
+        return tablero;
+    }
 
+    public Enemigo[] getEnemigos() {
+        return enemigos;
+    }
+
+    public boolean estaTerminado() {
+        return juegoTerminado;
+    }
+}
 
 
