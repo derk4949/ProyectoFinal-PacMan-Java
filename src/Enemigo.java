@@ -34,6 +34,28 @@ public class Enemigo {
     }
 
     //protegida para que solo las clases hijas puedaan usarlo
+    protected boolean intentarMoverIgnorandoMuros(int nuevaFila, int nuevaColumna, Tablero tablero) {
+
+        if (tablero == null) {
+            return false;
+        }
+
+        if (!activo) {
+            return false;
+        }
+
+        if (!tablero.esMovimientoValidoFantasma(nuevaFila, nuevaColumna)) {
+            return false;
+        }
+
+        filaAnterior = fila;
+        columnaAnterior = columna;
+        fila = nuevaFila;
+        columna = nuevaColumna;
+
+        return true;
+    }
+
     protected boolean intentarMover(int nuevaFila, int nuevaColumna, Tablero tablero) {
 
         if (tablero == null || !activo) {
