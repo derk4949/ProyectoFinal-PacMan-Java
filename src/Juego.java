@@ -21,59 +21,41 @@ public class Juego {
 
     public void iniciarJuego() {
 
+        boolean programaActivo = true;
 
+        while (programaActivo) {
 
-        System.out.println();
-        System.out.println("------------------------");
-        System.out.println("       PAC-MAN"          );
-        System.out.println("------------------------");
-        System.out.println("1. Iniciar juego");
-        System.out.println("2. Ver instrucciones");
-        System.out.println("3. Salir");
+            System.out.println();
+            System.out.println("------------------------");
+            System.out.println("       PAC-MAN"          );
+            System.out.println("------------------------");
+            System.out.println("1. Iniciar juego");
+            System.out.println("2. Ver instrucciones");
+            System.out.println("3. Salir");
 
+            int opcion = leerEntero("Seleccione una opcion: ");
 
+            switch (opcion) {
 
+                case 1:
+                    configurarNuevaPartida();
+                    break;
 
-        String entrada = scanner.nextLine().trim();
+                case 2:
+                    mostrarInstrucciones();
+                    break;
 
-        if (entrada.equals("2")) {
-            System.out.println("Hasta luego!");
+                case 3:
+                    programaActivo = false;
+                    System.out.println("Gracias por jugar");
+                    break;
 
-
-
-        } else if (entrada.equals("1")) {
-            System.out.println("Creando el mundo...");
-            System.out.println("añade dimension tablero filas");
-            int filaT = scanner.nextInt();
-            System.out.println("añade dimension tablero columnas");
-            int columnaT = scanner.nextInt();
-        //    this.jugador = new Jugador("leonardo",5,5);
-
-            this.tablero = new Tablero(filaT,columnaT,filaT+5,5,0);
-            this.tablero.generarTablero();
-
-
-            int []posicionLibre = this.tablero.obtenerPosicionLibreAleatoria();
-            int filaFantasma = posicionLibre[0];
-            int colFantasma = posicionLibre[1];
-            this.aleatorio = new Enemigo2(filaFantasma,colFantasma);
-            this.tablero.colocarEnemigos2(aleatorio);
-
-
-            this.jugador = new Jugador("leonardo",2,2);
-            this.tablero.colocarJugador(jugador);
-            this.tablero.mostrarTablero();
-
-
-            while(!juegoTerminado) {
-                ejecutarTurno();
-                actualizarTablero();
-                mostrarEstado();
-                verificarFinJuego();
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
             }
-        } else {
-            System.out.println("Opción no válida. Reinicia el juego.");
         }
+        scanner.close();
     }
 
 // pedir entero si osi
