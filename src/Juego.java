@@ -308,7 +308,58 @@ public class Juego {
     }
 
 //revisa si lacasilla actual del jugador hay un punto o poder y los aplica, devuelve true solo si recogio poder
+    private boolean procesarCasillaJugador() {
 
+        Punto punto = tablero.buscarPunto(jugador.getFila(), jugador.getColumna());
+
+        if (punto != null) {
+            int valor = punto.obtenerValor();
+            jugador.recogerPunto(punto);
+            tablero.eliminarPuntoDelTablero(jugador.getFila(), jugador.getColumna());
+            System.out.println("punto recogido a ganado : " + valor);
+        }
+
+        Poder poder = tablero.buscarPoder(jugador.getFila(), jugador.getColumna());
+
+        if (poder != null) {
+
+            int duracion = poder.getDuracion();
+
+            System.out.println(poder.descripcion());
+            System.out.println("Poder consumido: " + poder.getTipo() + ".");
+
+            jugador.usarPoder(poder);
+            tablero.eliminarPoderDelTablero(jugador.getFila(), jugador.getColumna());
+
+            if (duracion > 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+//comprobar enemigo en casilla del jugador, solo comprobacion
+    private boolean hayEnemigoEnPosicionJugador() {
+
+        for (int i = 0; i < enemigos.length; i++) {
+
+            Enemigo enemigo = enemigos[i];
+
+            if (enemigo == null || !enemigo.estaActivo()) {
+                continue;
+            }
+
+            if (enemigo.getFila() == jugador.getFila()
+                    && enemigo.getColumna() == jugador.getColumna()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+//mueve al jugador de acuerdo a su velocidad y procesa lo que encuentre en el camino y verifica colisiones
 
 
     public void verificarFinJuego() {
