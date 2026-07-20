@@ -276,14 +276,4 @@ public class Jugador {
         this.velocidad = velocidad;
     }
 
-
-    public void mostrarEstado() {
-        System.out.println("\n--- ESTADO DE: " + this.nombre + " ---");
-        System.out.println("Posición: [" + this.fila + ", " + this.columna + "]");
-        System.out.println("Puntaje: " + this.puntaje);
-        System.out.println("Vidas: " + this.salud);
-        System.out.println("¿Tiene Poder?: " + (this.poderActivo ? "Sí" : "No"));
-        System.out.println("¿Está vivo?:" + (this.estaVivo() ? "Si" : "No, GAME OVER"));
-        System.out.println("-----------------------------\n");
-    }
 }

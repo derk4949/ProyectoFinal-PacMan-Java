@@ -27,14 +27,8 @@ public class Punto {
         return recolectado;
     }
 
-    public void recolectar() {
-        this.recolectado = true;
-    }
-
-    public void mostrarEstado() {
-        System.out.println("Punto en posición: [" + fila + "," + columna + "]");
-        System.out.println("Valor: " + valor
-                + " - ¿Recolectado?: " + (recolectado ? "Sí" : "No"));
+    public void marcarComoRecolectado() {
+        recolectado = true;
     }
 }
 
