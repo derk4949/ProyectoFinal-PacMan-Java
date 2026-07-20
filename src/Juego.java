@@ -284,14 +284,36 @@ public class Juego {
     }
 
 
+    // crea y coloca enemigo en base de tablero
+    public void generarEnemigos(int cantidad) {
 
-    public void programaActivo() {
+        if (cantidad < 3) {
+            cantidad = 3;
+        }
 
+        enemigos = new Enemigo[cantidad];
+
+        int[] base = tablero.obtenerPosicionBase();
+
+        for (int i = 0; i < cantidad; i++) {
+
+            if (i % 3 == 0) {
+                enemigos[i] = new Enemigo1(base[0], base[1]);
+            } else if (i % 3 == 1) {
+                enemigos[i] = new Enemigo2(base[0], base[1]);
+            } else {
+                enemigos[i] = new Enemigo3(base[0], base[1]);
+            }
+        }
     }
 
-    public void generarEnemigos() {
+//revisa si lacasilla actual del jugador hay un punto o poder y los aplica, devuelve true solo si recogio poder
 
-        }
+
+
+    public void verificarFinJuego() {
+
+    }
 
 
     public void mostrarEstado() {
@@ -303,52 +325,7 @@ public class Juego {
         this.tablero.mostrarTablero();
     }
 
-    public boolean ejecutarTurno(String direccion) {
-
-        if (juegoTerminado
-                || jugador == null
-                || tablero == null
-                || controlEnemigos == null
-                || direccion == null) {
-            return false;
-        }
-
-    public void verificarFinJuego() {
-
-    }
 
 
 
 
-
-class pruebajuego {
-    public static void main(String[] args) {
-        Tablero miTablero = new Tablero(10, 10, 5, 0, 0);
-        miTablero.generarTablero();
-        Enemigo2 aleatorio = new Enemigo2(3, 5);
-        miTablero.colocarEnemigos2(aleatorio);
-        miTablero.mostrarTablero();
-        aleatorio.mostrarEstado();
-    }
-
-    public Jugador getJugador() {
-        return jugador;
-    }
-
-    public Tablero getTablero() {
-        return tablero;
-    }
-
-    public Enemigo[] getEnemigos() {
-        return enemigos;
-    }
-
-    public boolean estaTerminado() {
-        return juegoTerminado;
-    }
-
-    public int getTurno() {
-        return turno;
-    }
-
-}
